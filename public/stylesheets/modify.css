@@ -1,0 +1,92 @@
+
+
+.dummy_content{
+    min-height: 100vh;
+}
+.content.show{
+    background-image: url(/images/Background_Static.jpg);
+}
+/* body
+{
+    font-family: 'Libre Baskerville', serif;
+} */
+.responsive-tabs dt {
+    padding: 0.5em;
+    border-top: 1px solid #ccc;
+    cursor: pointer;
+}
+.responsive-tabs dt:first-child {
+    border-top: 0;
+}
+.responsive-tabs .active {
+    background-color: rgba(204, 204, 204, 0.507);
+}
+.responsive-tabs .active+dd {
+    display: block;
+}
+.responsive-tabs dd {
+    display: none;
+    padding: 0.5em;
+}
+.responsive-tabs-placeholder {
+    display: none;
+}
+@media only screen and (min-width: 768px) {
+    .responsive-tabs {
+        display: block;
+        width: 90%;
+    }
+    .responsive-tabs dt {
+        float: left;
+        border-top: 0;
+    }
+    .responsive-tabs .active+dd {
+        display: none;
+    }
+    .responsive-tabs-placeholder {
+        clear: both;
+        display: block;
+        padding: 1em;
+        border-top: 1px solid #ccc;
+        border-bottom: 1px solid #ccc;
+        margin-bottom: 1em;
+    }
+}
+.button {
+    display: inline-block;
+    border-radius: 4px;
+    background-color: #f4511e;
+    border: none;
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 28px;
+    padding: 10px;
+    width: 170px;
+    transition: all 0.5s;
+    cursor: pointer;
+    margin: 2rem;
+}
+.button span {
+    cursor: pointer;
+    display: inline-block;
+    position: relative;
+    transition: 0.5s;
+}
+.button span:after {
+    content: '\00bb';
+    position: absolute;
+    opacity: 0;
+    top: 0;
+    right: -20px;
+    transition: 0.5s;
+}
+.button:hover span {
+    padding-right: 25px;
+}
+.button:hover span:after {
+    opacity: 1;
+    right: 0;
+}
+.left{
+    text-align: justify;
+}

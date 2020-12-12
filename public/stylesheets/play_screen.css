@@ -1,0 +1,382 @@
+body{
+    margin: 0;
+    font-size: .9rem;
+    /*font-weight: 400;*/
+    padding: 0;
+}
+
+.no-gutters{
+  margin: 0;
+  padding: 0;
+}
+
+.leftside, .rightside{
+  height: 50vh;
+  width: 100%;
+  margin: 0;
+}
+
+@media screen and (min-width: 768px){
+  .leftside, .rightside{
+    height: 100vh;
+    width: 100% !important;
+    opacity: 1;
+    margin: 0;
+  }
+}
+
+.leftside{
+    background: #9E9E9E;
+}
+
+.leftside:hover{
+    opacity: 1;
+}
+
+.rightside:hover{
+    opacity: 1;
+}
+
+.col-md-6{
+  height: 100%;
+  margin: 0px !important;
+  padding: 0px !important;
+  width: 100%;
+}
+
+.row{
+  width: 100% !important;
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+.images{
+  width: 100%;
+  height: 60%;
+}
+
+.leftside, .rightside{
+  margin: 0 !important;
+  padding: 0 !important;
+}
+
+  form {
+    width: 100%;
+    height: 100%;
+    margin: 0px;
+    padding: 0px;
+    background: #efefef;
+    text-align: center;
+    position: absolute;
+    /*margin: 0px auto;
+    background: #efefef;*/
+    /*padding: 60px 120px 80px 120px;
+    text-align: center;
+    -webkit-box-shadow: 2px 2px 3px rgba(0,0,0,0.1);
+    box-shadow: 2px 2px 3px rgba(0,0,0,0.1);*/
+  }
+  
+@media screen and (min-width: 768px){
+  .input {
+    width: 50%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    position: relative;
+    margin-top: 40vh;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .input {
+    width: 50%;
+    padding: 10px;
+    background: transparent;
+    border: none;
+    outline: none;
+    position: relative;
+    margin-top: 20vh;
+  }
+}
+  
+  .line-box {
+    position: relative;
+    width: 70%;
+    height: 2px;
+    background: #BCBCBC;
+    display: block;
+    margin-right: auto;
+    margin-left: auto;
+  }
+  
+  .line {
+    position: absolute;
+    width: 0%;
+    height: 2px;
+    top: 0px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #4F4F4F;
+    transition: ease .6s;
+  }
+  
+  .input:focus + .line-box .line {
+    width: 100%;
+  }
+  
+  .label-active {
+    top: -3em;
+  }
+  
+@media screen and (min-width: 768px)
+{
+  .submit_custom{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 9vh;
+    height: 6vh;
+    border-color: #4F4F4F;
+    color: white;
+    border: 3px;
+  }
+
+  .submit_custom:hover{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 9vh;
+    height: 6vh;
+    border-color: #4F4F4F;
+    color: #9E9E9E;
+    border: 3px;
+  }
+
+  .submit_custom:active{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 9.25vh;
+    height: 6.25vh;
+    border-color: #4F4F4F;
+    color: #9E9E9E;
+    border: 5px;
+  }
+
+  .submit_custom:focus{
+    outline: 0;
+  }
+}
+
+@media screen and (max-width: 768px)
+{
+  .submit_custom{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 11vh;
+    height: 7vh;
+    border-color: #4F4F4F;
+    color: white;
+    border: 3px;
+  }
+
+  .submit_custom:hover{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 11vh;
+    height: 7vh;
+    border-color: #4F4F4F;
+    color: #9E9E9E;
+    border: 3px;
+  }
+
+  .submit_custom:active{
+    border-radius: 10px;
+    background-color: #4F4F4F;
+    width: 11.25vh;
+    height: 7.25vh;
+    border-color: #4F4F4F;
+    color: #9E9E9E;
+    border: 5px;
+  }
+
+  .submit_custom:focus{
+    outline: 0;
+  }
+}
+  .fluxus{
+    display: inline-block;
+    float: left;
+    width: 27%;
+    height: auto;
+    margin: 0;
+  }
+  .quiz{
+    display: inline-block;
+    float: right;
+    width: 15%;
+    height: auto;
+    margin-top: 2.5%;
+    margin-right: 2.5%;
+  }
+
+  a{
+    margin: 0;
+    padding: 0;
+  }
+
+@media screen and (min-width: 768px){
+  .leader{
+    position: absolute;
+    left: 0;
+    width: 20%;
+    height: 20%;
+    color: white;
+    border-radius: 0 100% 0 0;
+    background-color: #4F4F4F;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .forum{
+    position: absolute;
+    right: 0;
+    width: 20%;
+    height: 20%;
+    color: white;
+    border-radius: 100% 0 0 0;
+    background-color: #4F4F4F;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .leaderp{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-left: 5%;
+    margin-bottom:  15%;
+    padding: 0;
+    font-size: 1.2vw;
+  }
+
+  .forump{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 15%;
+    margin-bottom: 15%;
+    padding: 0;
+    font-size: 1.2vw;
+  }
+}
+
+@media screen and (max-width: 768px){
+  .leader{
+    position: absolute;
+    left: 0;
+    width: 30%;
+    height: 20%;
+    color: white;
+    border-radius: 0 5% 0 0;
+    background-color: #4F4F4F;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .forum{
+    position: absolute;
+    right: 0;
+    width: 30%;
+    height: 20%;
+    color: white;
+    border-radius: 5% 0 0 0;
+    background-color: #4F4F4F;
+    bottom: 0;
+    margin: 0;
+    padding: 0;
+  }
+
+  .leaderp{
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    margin-bottom:  15%;
+    margin-left: 10%;
+    padding: 0;
+    font-size: 3.2vw;
+  }
+
+  .forump{
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    margin-right: 30%;
+    margin-bottom: 15%;
+    padding: 0;
+    font-size: 3.2vw;
+  }
+}
+
+  p{
+    margin: 0;
+    padding: 0;
+  }
+
+  .forum:hover, .leader:hover{
+    text-decoration: none;
+    font-weight: bold;
+    color: #9E9E9E;
+  }
+
+  .lefttop{
+    display: inline-block;
+    float: left;
+    margin: 0;
+    padding: 0;
+    width: 8%;
+    height: 8%;
+    text-align: center;
+  }
+
+  .righttop{
+    display: inline-block;
+    float: right;
+    margin: 0;
+    padding: 0;
+    width: 92%;
+    height: 8%;
+    text-align: center;
+  }
+
+  #question_number, #question_description{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+  }
+
+  .lower{
+    margin: 0;
+    padding: 0;
+    width: 100%;
+    height: 27%;
+    text-align: center;
+  }
+
+  #question{
+    margin:0;
+    padding: 0;
+    width: 100%;
+    height: 100%;
+    color: white;
+  }
+
+  .space{
+    margin: 0;
+    padding: 0;
+    height: 5%;
+    width: 100%;
+  }

@@ -1,0 +1,186 @@
+<html>
+<head>
+  <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Enigma</title>
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+  <link rel="shortcut icon" href="https://www.fluxus.co.in/aboutTech-Fluxus/favicon.ico">
+  <script src="/javascripts/modernizr.custom.js"></script>
+  
+
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+  <!-- <link rel="stylesheet" type="text/css" href="/stylesheets/leader.css"> -->
+
+<style type="text/css">
+  body{
+    margin: 0px; 
+    padding: 0px;
+    width: 100%;
+    height: 100vh;
+    text-align: center;
+   background: url('../images/Background_Static.jpg') repeat 0 0; 
+}
+
+
+
+@media only screen and (min-width: 768px){
+  .div1{
+    width: 80%;
+    height: 100vh;
+    margin-left: 10%;
+    margin-right: 10%; 
+    padding: 0;
+  }
+}  
+.title
+{
+  width: 100%;
+  font-size: 5vw;
+  color:white;
+}
+
+.rank
+{
+  color: #f7ea3c;
+}
+
+@media only screen and (max-width: 768px){
+.title{
+  width: 100%;
+  font-size: 5vw;
+  color: white;
+}
+
+  .div1{
+    width: 100%;
+    height: 100%;
+    margin: 0px !important;
+    padding: 0px !important;
+  }
+} 
+
+</style>
+</head>
+<body>
+  <div class="div1">
+    <h1 class='title'>LEADERBOARD</h1>
+    <table class="table table-striped table-dark">
+      <thead>
+        <tr>
+          <th scope="col">Rank</th>
+          <th scope="col">Username</th>
+          <th scope="col">Level</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <th scope="row">1</th>
+          <td>{{userid_1}}</td>
+          <td>{{level_1}}</td>
+        </tr>
+        <tr>
+          <th scope="row">2</th>
+          <td>{{userid_2}}</td>
+          <td>{{level_2}}</td>
+        </tr>
+        <tr>
+          <th scope="row">3</th>
+          <td>{{userid_3}}</td>
+          <td>{{level_3}}</td>
+        </tr>
+        <tr>
+          <th scope="row">4</th>
+          <td>{{userid_4}}</td>
+          <td>{{level_4}}</td>
+        </tr>
+        <tr>
+          <th scope="row">5</th>
+          <td>{{userid_5}}</td>
+          <td>{{level_5}}</td>
+        </tr>
+        <tr>
+          <th scope="row">6</th>
+          <td>{{userid_6}}</td>
+          <td>{{level_6}}</td>
+        </tr>
+       <tr>
+          <th scope="row">7</th>
+          <td>{{userid_7}}</td>
+          <td>{{level_7}}</td>
+        </tr>
+        <tr>
+          <th scope="row">8</th>
+          <td>{{userid_8}}</td>
+          <td>{{level_8}}</td>
+        </tr>
+        <tr>
+          <th scope="row">9</th>
+          <td>{{userid_9}}</td>
+          <td>{{level_9}}</td>
+        </tr>
+        <tr>
+          <th scope="row">10</th>
+          <td>{{userid_10}}</td>
+          <td>{{level_10}}</td>
+        </tr>
+        <tr>
+          <th scope="row">11</th>
+          <td>{{userid_11}}</td>
+          <td>{{level_11}}</td>
+        </tr>
+        <tr>
+          <th scope="row">12</th>
+          <td>{{userid_12}}</td>
+          <td>{{level_12}}</td>
+        </tr>
+        <tr>
+          <th scope="row">13</th>
+          <td>{{userid_13}}</td>
+          <td>{{level_13}}</td>
+        </tr>
+        <tr>
+          <th scope="row">14</th>
+          <td>{{userid_14}}</td>
+          <td>{{level_14}}</td>
+        </tr>
+        <tr>
+          <th scope="row">15</th>
+          <td>{{userid_15}}</td>
+          <td>{{level_15}}</td>
+        </tr>
+        <tr>
+          <th scope="row">16</th>
+          <td>{{userid_16}}</td>
+          <td>{{level_16}}</td>
+        </tr>
+       <tr>
+          <th scope="row">17</th>
+          <td>{{userid_17}}</td>
+          <td>{{level_17}}</td>
+        </tr>
+        <tr>
+          <th scope="row">18</th>
+          <td>{{userid_18}}</td>
+          <td>{{level_18}}</td>
+        </tr>
+        <tr>
+          <th scope="row">19</th>
+          <td>{{userid_19}}</td>
+          <td>{{level_19}}</td>
+        </tr>
+        <tr>
+          <th scope="row">20</th>
+          <td>{{userid_20}}</td>
+          <td>{{level_20}}</td>
+        </tr>
+        <tr class='rank'>
+          <th scope="row">{{Rank}}</th>
+          <td>{{User_Id}}</td>
+          <td>{{My_Level}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</body>
+</html>

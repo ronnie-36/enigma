@@ -1,0 +1,9 @@
+- remove Ref
+- get level on confirm_email and save to session
+- use req.session.level everywhere
+- use questions[level] to get current question and pass to frontend
+put mongo instead of firebase
+check multiple users and question scces
+imlplement password authentication
+last 50 attempt anweers
+every document contains field of admin:true or false to oobserve the page above

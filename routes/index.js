@@ -182,15 +182,15 @@ router.get('/play', async function (req, res, next) {
   // res.render('index', {...currentQuestion,func:1});
 });
 
-router.post('/send_data', async function (req, res) {
+router.post('/play', async function (req, res) {
   var ans = req.body.answer;
   let currentQuestion = questions[req.session.level - 1];
   console.log(ans, answer[req.session.level - 1]);
   if (ans == answer[req.session.level - 1]) {
     req.session.level++;
     await update_level(req.session.email, req.session.level);
-    res.render('index', { ...currentQuestion, func: 1 });
-    res.redirect('/play');
+    nextQuestion=questions[req.session.level - 1];
+    res.render('index', { ...nextQuestion, func: 1 });
   } else {
     res.render('index', { ...currentQuestion, func: 0 });
   }

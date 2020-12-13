@@ -15,7 +15,7 @@
     <script>
         function popup()
         {
-          window.open("/signin");
+          window.open("/auth/google");
         }
          function forum()
       {
@@ -37,7 +37,20 @@
         setTimeout(Toast.fire({
           icon: 'success',
           title: 'Registered Successfully'
-        }), 2000);
+        }), 3000);
+         
+      }
+      function register_fail()
+      {
+          var message='';
+        {{#if error}}
+           message='{{error}}';
+        {{/if}}
+        console.log(message);
+        setTimeout(Toast.fire({
+          icon: 'error',
+          title: 'FAILED.\n'+message
+        }), 5000);
          
       }
       function wrong_password()
@@ -692,8 +705,6 @@ body{
                                   <li>As you solve one question, you will subsequently proceed to the next level. Entry level will contain one question.</li>
                               </ol>
                             </dd>
-                           <dt onclick='popup()'>Play</dt>
-                            <dd> </dd>
                             <dt onclick="forum()">Forum</dt></a>
                             <dd> </dd>
                             <dt>Contact</dt>
@@ -713,7 +724,8 @@ body{
                     <p class="dummy-text">
                         <!-- <button class="button" style="vertical-align:middle"><span><a href="https://www.fluxus.co.in/aboutTech-Fluxus/aboutTech-Fluxus/strategai.pdf" download="" target="_blank">Download Rule Booklet</a></span></button> -->
                         </p>
-                    <a href="/signup"><button class="button" style="vertical-align:middle"><span>Sign Up</span></button></a>
+                    <a href="/login"><button class="button" style="vertical-align:middle"><span>Play</span></button></a> 
+                    <a href="signup"><button class="button" style="vertical-align:middle"><span>Sign Up</span></button></a>
                 </div>
             </div>
         </section>

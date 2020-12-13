@@ -8,6 +8,7 @@ const MongoClient = require('mongodb').MongoClient;
 // var url = "mongodb://localhost:27017/mydb";
 // var url = process.env.MONGO_URI;
 const crypto = require('crypto');
+const store = require('store');
 const User = require('../models/userModel');
 
 var answer = [
@@ -113,67 +114,65 @@ router.get('/', function (req, res, next) {
   res.render('', { layout: 'layout_static' });
 });
 
-router.get('/signin', function (req, res, next) {
-  res.render('', { layout: 'signin' });
+router.get('/login', function (req, res, next) {
+  store.set('type','login');
+  res.redirect('/auth/google');
 });
 
-router.post('/signin_send', async function (req, res, next) {
-  const { email, password } = req.body;
-  const user = await User.findOne({ email });
+// router.post('/signin_send', async function (req, res, next) {
+//   const { email, password } = req.body;
+//   const user = await User.findOne({ email });
 
-  if (user && (await user.matchPassword(password))) {
-    console.log({
-      _id: user._id,
-      username: user.username,
-      email: user.email,
-    });
+//   if (user && (await user.matchPassword(password))) {
+//     console.log({
+//       _id: user._id,
+//       username: user.username,
+//       email: user.email,
+//     });
 
-    req.session.email = req.body.email;
-    //req.session.level = await get_level(req.body.email);
-    req.session.level = user.level;
-    //req.session.uname=req.session.username;
-    req.session.save();
-    console.log('[req.session.level]', req.session.level);
-    // db.collection('ENIGMA').doc( userid ).get()=db.collection('ENIGMA').doc( userid ).get();
-    res.redirect('/play');
-  } else {
-    res.status(401);
-    res.render('', { func: 'wrong_password()', layout: 'signin' });
-    throw new Error('Invalid email or password');
-  }
-});
+//     req.session.email = req.body.email;
+//     //req.session.level = await get_level(req.body.email);
+//     req.session.level = user.level;
+//     //req.session.uname=req.session.username;
+//     req.session.save();
+//     console.log('[req.session.level]', req.session.level);
+//     // db.collection('ENIGMA').doc( userid ).get()=db.collection('ENIGMA').doc( userid ).get();
+//     res.redirect('/play');
+//   } else {
+//     res.status(401);
+//     res.render('', { func: 'wrong_password()', layout: 'signin' });
+//     throw new Error('Invalid email or password');
+//   }
+// });
 
 router.get('/signup', function (req, res, next) {
   res.render('', { layout: 'register' });
 });
 
+router.get('/success', function (req, res, next) {
+  res.render('', { func: 'register_successful()', layout: 'layout_static' });
+});
+
+router.get('/failure', function (req, res, next) {
+  res.render('', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
+});
+
 // register new user
 
-router.post('/createuser', async function (req, res, next) {
-  const { email, username, first_name, last_name, password } = req.body;
-
-  const userExists = await User.findOne({ email });
-
+router.post('/getusername', async function (req, res, next) {
+  const { username } = req.body;
+  const userExists = await User.findOne({ username });
+  store.set('type','register');
   if (userExists) {
     res.status(400);
-    throw new Error('User already exists');
+    res.render('', { func: 'exists()', layout: 'register' });
+    throw new Error('Username already exists');
+  }
+  else{
+    store.set('id',username);
+    res.redirect('/auth/google');
   }
 
-  try {
-    let user = new User({
-      email: email,
-      username: username,
-      first_name: first_name,
-      last_name: last_name,
-      password: password,
-      level: 1,
-    });
-    const savedUser = await user.save();
-    console.log(savedUser);
-  } catch (err) {
-    console.log(err);
-  }
-  res.render('', { func: 'register_successful()', layout: 'layout_static' });
 });
 
 router.get('/play', async function (req, res, next) {

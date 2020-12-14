@@ -111,7 +111,7 @@ function assign() {
 //why is assign required?
 
 router.get('/', function (req, res, next) {
-  res.render('', { layout: 'layout_static' });
+  res.render('landing', { layout: 'layout_static' });
 });
 
 router.get('/login', function (req, res, next) {
@@ -149,12 +149,23 @@ router.get('/signup', function (req, res, next) {
   res.render('', { layout: 'register' });
 });
 
-router.get('/success', function (req, res, next) {
-  res.render('', { func: 'register_successful()', layout: 'layout_static' });
+router.get('/home', function (req, res, next) {
+  if(req.isAuthenticated()){
+  res.render('home', { layout: 'layout_static' });
+  }
+  else{
+  res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  }
 });
 
+router.get('/success', function (req, res, next) {
+  res.render('home', { func: 'register_successful()', layout: 'layout_static' });
+});
+router.get('/loginsuccess', function (req, res, next) {
+  res.render('home', { func: 'login_successful()', layout: 'layout_static' });
+});
 router.get('/failure', function (req, res, next) {
-  res.render('', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
+  res.render('landing', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
 });
 
 // register new user
@@ -176,10 +187,15 @@ router.post('/getusername', async function (req, res, next) {
 });
 
 router.get('/play', async function (req, res, next) {
-  console.log('CURRENT LEVEL', req.session.level);
+  if(req.isAuthenticated()){
+    console.log('CURRENT LEVEL', req.session.level);
   let currentQuestion = questions[req.session.level - 1];
   res.render('index', currentQuestion);
   // res.render('index', {...currentQuestion,func:1});
+  }
+  else{
+  res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  }
 });
 
 router.post('/play', async function (req, res) {

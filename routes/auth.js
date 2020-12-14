@@ -15,25 +15,20 @@ router.get(
   '/google/callback',
   passport.authenticate('google', { failureRedirect: '/failure', failureFlash: true }),
   (req, res) => {
-    if(store.get('type') == 'register'){
-        store.clearAll();
-        res.redirect('/success');
-    }
-    else{
         req.session.email = req.user.email;
         req.session.level = req.user.level;
         req.session.save();
         store.clearAll();
-        res.redirect('/play');
+        res.redirect('/home');
     }
-  }
 );
 
 // @desc    Logout user
 // @route   /auth/logout
 router.get('/logout', (req, res) => {
-  req.logout()
-  res.redirect('/')
+  req.logout();
+  req.session.destroy();
+  res.redirect('/');
 });
 
 module.exports = router;

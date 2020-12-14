@@ -1,0 +1,89 @@
+<script>
+    function forum() {
+        window.open("https://discord.gg/SdwR2zW");
+    }
+    const Toast = Swal.mixin({
+        toast: true,
+        position: 'top-end',
+        showConfirmButton: false,
+        timer: 3000,
+        timerProgressBar: true,
+        onOpen: (toast) => {
+            toast.addEventListener('mouseenter', Swal.stopTimer)
+            toast.addEventListener('mouseleave', Swal.resumeTimer)
+        }
+    })
+    function register_successful() {
+        setTimeout(Toast.fire({
+            icon: 'success',
+            title: 'Registered Successfully'
+        }), 3000);
+
+    }
+    function not_logged_in() {
+        setTimeout(Toast.fire({
+            icon: 'error',
+            title: 'NOT AUTHORIZED. Log in Required.'
+        }), 3000);
+
+    }
+    function register_fail() {
+        var message = '';
+        {{#if error }}
+        message = '{{error}}';
+        {{/if}}
+        console.log(message);
+        setTimeout(Toast.fire({
+            icon: 'error',
+            title: 'FAILED.\n' + message
+        }), 5000);
+
+    }
+    function wrong_password() {
+
+        alert("Wrong Password!");
+    }
+</script>
+
+<div style="max-width: 785px; display: block; width:100%; margin: auto;">
+    <dl class="responsive-tabs">
+        <dt class="active">Description</dt>
+        <dd>
+            <p class="left">
+                Enigma is an online cryptic hunt, the flagship event of the Quiz Club IITI, which is conducted as a part
+                of IIT Indore's annual techno-cultural fest Fluxus. Tune yourself in for a 48-hour long hunt, filled
+                with puzzles that will leave your mind baffled. See you on the other side!!
+            </p>
+        </dd>
+        <dt>Rules</dt>
+        <dd>
+            <ol class="left">
+                <li>This is a 48 hour long hunt. The portal opens at 7PM on 31 January 2020.</li>
+                <li>To participate in the event, you need a registration ID of FLUXUS 2020. Use the same registration ID
+                    to login</li>
+                <li>You can scour through the web</li>
+                <li>As you solve one question, you will subsequently proceed to the next level. Entry level will contain
+                    one question.</li>
+            </ol>
+        </dd>
+        <dt onclick="forum()">Forum</dt></a>
+        <dd> </dd>
+        <dt>Contact</dt>
+        <dd>
+            <p class="left">
+                Sarthak Chincholikar (8308811959)<br>
+                Nachiket Mokashi (9689927714)<br><br>
+                Mail id: quizclub@iiti.ac.in<br><br>
+                Technical:<br>
+                Paarth Thadani (9624909090)<br>
+                Yash Kothekar (7776808488)<br>
+                Rushabh Kadam (9158924429)
+            </p>
+        </dd>
+    </dl>
+</div>
+<p class="dummy-text">
+    <!-- <button class="button" style="vertical-align:middle"><span><a href="https://www.fluxus.co.in/aboutTech-Fluxus/aboutTech-Fluxus/strategai.pdf" download="" target="_blank">Download Rule Booklet</a></span></button> -->
+</p>
+<a href="/login"><button class="button" style="vertical-align:middle"><span>Existing User?</span></button></a>
+<a href="signup"><button class="button" style="vertical-align:middle"><span>New User</span></button></a>

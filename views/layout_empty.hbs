@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en" class=" js csstransforms3d csstransitions pointerevents">
+
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Enigma</title>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
+    <link rel="shortcut icon" href="images/favicon.png">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/normalize.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/demo.css">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/component.css">
+    <script src="/javascripts/modernizr.custom.js"></script>
+    <link rel="stylesheet" type="text/css" href="/stylesheets/modify.css">
+    <script>
+        function popup() {
+            window.open("/auth/google");
+        }
+    </script>
+    <style>
+        .dummy_content {
+            min-height: 100vh;
+        }
+
+        .dummy_content.show {
+            position: absolute;
+            transform: translate(-50%);
+            width: 100%;
+            max-width: 1200px;
+            background-color: rgba(0, 0, 0, 0.85) !important;
+        }
+
+        .content.show {
+            background-image: url(/images/Background_Static.jpg);
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+
+        <section class="grid3d vertical" id="grid3d">
+
+            <!-- /grid-wrap -->
+            <div class="content show">
+                <span class="loading">
+                </span>
+                <div class="dummy_content show">
+                    {{{body}}}
+                </div>
+            </div>
+        </section>
+        <section>
+        </section>
+    </div>
+    <!-- /container -->
+    <script src="/javascripts/jquery.min.js"></script>
+    <script src="/javascripts/classie.js"></script>
+    <script src="/javascripts/helper.js"></script>
+    <script src="/javascripts/grid3d.js"></script>
+    <script>
+        new grid3D(document.getElementById('grid3d'));
+    </script>
+
+</body>
+
+</html>

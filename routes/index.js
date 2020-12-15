@@ -78,7 +78,7 @@ function get_rank(email) {
 
     User.find()
       .sort({ level: -1, last_write: 1 })
-      .toArray(function (err, result) {
+      .exec(function (err, result) {
         if (err) throw err;
         var userrank = 0;
         console.log(result[0].name, result[1].name);
@@ -112,6 +112,15 @@ function assign() {
 
 router.get('/', function (req, res, next) {
   res.render('landing', { layout: 'layout_static' });
+});
+
+router.get('/404redirect', function (req, res, next) {
+  if(req.isAuthenticated()){
+    res.redirect('/home');
+  }
+  else{
+    res.redirect('/');
+  }
 });
 
 router.get('/login', function (req, res, next) {
@@ -167,9 +176,31 @@ router.get('/loginsuccess', function (req, res, next) {
 router.get('/failure', function (req, res, next) {
   res.render('landing', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
 });
-
+router.get('/profile', async function (req, res, next) {
+  if(!req.isAuthenticated()){
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  }
+  const email = req.session.email;
+  const user = await User.findOne({ email });
+  var name;
+  if(user.last_name == undefined){
+    name = user.first_name ;
+  }
+  else{
+   name = user.first_name +' '+ user.last_name ;
+  }
+  const uname = user.username;
+  const rank = await get_rank(req.session.email);
+  res.render('profile',{  
+      layout: 'layout_empty',
+      Name: name,
+      Rank: rank,
+      User_Id: uname,
+      Email: req.session.email,
+      Score: req.session.level-1
+    });
+});
 // register new user
-
 router.post('/getusername', async function (req, res, next) {
   const { username } = req.body;
   const userExists = await User.findOne({ username });
@@ -216,6 +247,9 @@ router.post('/play', async function (req, res) {
 //leaderboard to be done later
 router.get('/leaderboard', async function (req, res, next) {
   // req.session.level = await get_level(req.session.email);
+  if(!req.isAuthenticated()){
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  }
   const email = req.session.email;
   const user = await User.findOne({ email });
   req.session.level = user.level;
@@ -224,11 +258,11 @@ router.get('/leaderboard', async function (req, res, next) {
   // const uname = await get_username(req.session.email);
   console.log('rank is :', rank);
   console.log('THE LEADERBOARD DATA:', leaderboard_id, leaderboard_level);
-  res.render('', {
-    layout: 'leaderboard',
+  res.render('leaderboard', {
+    layout: 'layout_empty',
     Rank: rank,
     User_Id: uname,
-    My_Level: req.session.level,
+    My_Level: req.session.level-1,
     userid_1: leaderboard_id[0],
     userid_2: leaderboard_id[1],
     userid_3: leaderboard_id[2],
@@ -249,26 +283,26 @@ router.get('/leaderboard', async function (req, res, next) {
     userid_18: leaderboard_id[17],
     userid_19: leaderboard_id[18],
     userid_20: leaderboard_id[19],
-    level_1: leaderboard_level[0],
-    level_2: leaderboard_level[1],
-    level_3: leaderboard_level[2],
-    level_4: leaderboard_level[3],
-    level_5: leaderboard_level[4],
-    level_6: leaderboard_level[5],
-    level_7: leaderboard_level[6],
-    level_8: leaderboard_level[7],
-    level_9: leaderboard_level[8],
-    level_10: leaderboard_level[9],
-    level_11: leaderboard_level[10],
-    level_12: leaderboard_level[11],
-    level_13: leaderboard_level[12],
-    level_14: leaderboard_level[13],
-    level_15: leaderboard_level[14],
-    level_16: leaderboard_level[15],
-    level_17: leaderboard_level[16],
-    level_18: leaderboard_level[17],
-    level_19: leaderboard_level[18],
-    level_20: leaderboard_level[19],
+    level_1: Math.max(leaderboard_level[0]-1,0),
+    level_2: Math.max(leaderboard_level[1]-1,0),
+    level_3: Math.max(leaderboard_level[2]-1,0),
+    level_4: Math.max(leaderboard_level[3]-1,0),
+    level_5: Math.max(leaderboard_level[4]-1,0),
+    level_6: Math.max(leaderboard_level[5]-1,0),
+    level_7: Math.max(leaderboard_level[6]-1,0),
+    level_8: Math.max(leaderboard_level[7]-1,0),
+    level_9: Math.max(leaderboard_level[8]-1,0),
+    level_10: Math.max(leaderboard_level[9]-1,0),
+    level_11: Math.max(leaderboard_level[10]-1,0),
+    level_12: Math.max(leaderboard_level[11]-1,0),
+    level_13: Math.max(leaderboard_level[12]-1,0),
+    level_14: Math.max(leaderboard_level[13]-1,0),
+    level_15: Math.max(leaderboard_level[14]-1,0),
+    level_16: Math.max(leaderboard_level[15]-1,0),
+    level_17: Math.max(leaderboard_level[16]-1,0),
+    level_18: Math.max(leaderboard_level[17]-1,0),
+    level_19: Math.max(leaderboard_level[18]-1,0),
+    level_20: Math.max(leaderboard_level[19]-1,0),
   });
 });
 

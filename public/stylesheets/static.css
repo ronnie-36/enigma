@@ -2,7 +2,7 @@
     min-height: 100vh;
 }
 .content.show{
-    background-image: url(../images/Background.jpg);
+    /* background-image: url(../images/Background.jpg); */
 }
 .responsive-tabs dt {
     padding: 0.5em;

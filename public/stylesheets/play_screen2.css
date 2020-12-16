@@ -45,7 +45,7 @@
     height: 100%;
     /* overflow: hidden; */
     font-family: 'Roboto', Arial, sans-serif;
-    background-image: url('../images/background.jpg');
+    /* background-image: url('../images/background.jpg'); */
     color: #fff;
     /* display: flex; */
     justify-content: center;
@@ -58,7 +58,7 @@
     min-height: 100%;
     /* overflow: hidden; */
     font-family: 'Roboto', Arial, sans-serif;
-    background-image: url('../images/background.jpg');
+    /* background-image: url('../images/background.jpg'); */
     color: #fff;
     /* display: flex; */
     justify-content: center;
@@ -120,7 +120,7 @@
       height: 100%;
       /* overflow: hidden; */
       font-family: 'Roboto', Arial, sans-serif;
-      background-image: url('../images/background.jpg');
+      /* background-image: url('../images/background.jpg'); */
       color: #fff;
       display: flex; 
       justify-content: center;
@@ -133,7 +133,7 @@
       height: 100%;
       overflow: hidden;
       font-family: 'Roboto', Arial, sans-serif;
-      background-image: url('../images/background.jpg');
+      /* background-image: url('../images/background.jpg'); */
       color: #fff;
       /* display: flex; */
       justify-content: center;

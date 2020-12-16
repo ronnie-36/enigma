@@ -5,6 +5,7 @@ var path = require('path');
 var cookieParser = require('cookie-parser');
 var expressSession = require('express-session');
 var logger = require('morgan');
+var expressHbs =  require('express-handlebars');
 const passport = require('passport');
 const connectDB = require('./config/db');
 var flash = require('connect-flash');
@@ -22,7 +23,23 @@ require('./config/passport')(passport)
 connectDB();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
+app.engine('hbs', expressHbs({defaultLayout: false,extname: 'hbs',layoutsDir: "views/layouts/"}));
 app.set('view engine', 'hbs');
+var hbs = expressHbs.create({});
+hbs.handlebars.registerHelper({
+  eq: (v1, v2) => v1 === v2,
+  ne: (v1, v2) => v1 !== v2,
+  lt: (v1, v2) => v1 < v2,
+  gt: (v1, v2) => v1 > v2,
+  lte: (v1, v2) => v1 <= v2,
+  gte: (v1, v2) => v1 >= v2,
+  and() {
+      return Array.prototype.every.call(arguments, Boolean);
+  },
+  or() {
+      return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
+  }
+});
 
 app.use(flash());
 app.use(logger('dev'));
@@ -49,7 +66,7 @@ app.use('/auth', authRouter);
 
 // catch 404 and forward to error handler
 app.use(function (req, res, next) {
-  res.render('', { layout: '404' });
+  next(createError(404));
 });
 
 // error handler
@@ -60,7 +77,8 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  res.render('error');
+  if(err.status==404){res.render('', { layout: '404' });}
+  res.render('',{layout:'error'});
 });
 
 // const PORT = process.env.PORT || 5000;

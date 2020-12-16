@@ -43,9 +43,17 @@ var answer = [
 ];
 // var uname;//make this particular to a session
 
-async function update_level(email, level) {
+async function update_score(req, email, score, qno) {
   const user = await User.findOne({ email });
-  user.level = level;
+  user.score = score;
+  const nextQno=Math.max(req.session.level[0],req.session.level[1])+1;
+  if(req.session.level[0]==qno){
+    req.session.level[0]=nextQno;
+  }
+  else{
+    req.session.level[1]=nextQno;
+  }
+  user.level=req.session.level;
   user.save();
 }
 
@@ -73,19 +81,19 @@ function get_rank(email) {
   //leaderboard and rank will be done later
   return new Promise(function (resolve, reject) {
     leaderboard_id = [];
-    leaderboard_level = [];
+    leaderboard_score = [];
     itr = 0;
 
     User.find()
-      .sort({ level: -1, last_write: 1 })
+      .sort({ score: -1, last_write: 1 })
       .exec(function (err, result) {
         if (err) throw err;
         var userrank = 0;
-        console.log(result[0].name, result[1].name);
+        //console.log(result[0].name, result[1].name);
         while (itr < result.length) {
           if (itr < 20) {
             leaderboard_id.push(result[itr].username);
-            leaderboard_level.push(result[itr].level);
+            leaderboard_score.push(result[itr].score);
           }
           if (email == result[itr].email) {
             userrank = itr + 1;
@@ -197,7 +205,7 @@ router.get('/profile', async function (req, res, next) {
       Rank: rank,
       User_Id: uname,
       Email: req.session.email,
-      Score: req.session.level-1
+      Score: req.session.score
     });
 });
 // register new user
@@ -220,8 +228,11 @@ router.post('/getusername', async function (req, res, next) {
 router.get('/play', async function (req, res, next) {
   if(req.isAuthenticated()){
     console.log('CURRENT LEVEL', req.session.level);
-  let currentQuestion = questions[req.session.level - 1];
-  res.render('index', currentQuestion);
+    const q1_index=Math.min(req.session.level[0],req.session.level[1]);
+    const q2_index=Math.max(req.session.level[0],req.session.level[1]);
+    let q1 = questions[q1_index - 1];
+    let q2 = questions[q2_index - 1];
+    res.render('index', {q1,q2,active:{q1: true} , layout:'play_layout'});
   // res.render('index', {...currentQuestion,func:1});
   }
   else{
@@ -230,18 +241,41 @@ router.get('/play', async function (req, res, next) {
 });
 
 router.post('/play', async function (req, res) {
-  var ans = req.body.answer;
-  let currentQuestion = questions[req.session.level - 1];
-  console.log(ans, answer[req.session.level - 1]);
-  if (ans == answer[req.session.level - 1]) {
-    req.session.level++;
-    await update_level(req.session.email, req.session.level);
-    nextQuestion=questions[req.session.level - 1];
-    res.render('index', { ...nextQuestion, func: 1 });
-  } else {
-    res.render('index', { ...currentQuestion, func: 0 });
+  if(req.isAuthenticated()){
+    var ans = req.body.answer;
+    var qno = req.body.qno;
+    //console.log(ans, answer[qno - 1]);
+    level= req.session.level;
+    if (ans == answer[qno - 1] && (qno==level[0] || qno==level[1]) ){
+      req.session.score++;
+      await update_score(req,req.session.email, req.session.score,qno);
+      const q1_index=Math.min(req.session.level[0],req.session.level[1]);
+      const q2_index=Math.max(req.session.level[0],req.session.level[1]);
+      let q1 = questions[q1_index - 1];
+      let q2 = questions[q2_index - 1];
+      res.render('index', { q1,q2, layout:'play_layout',active:{q1: true} , func: 1 });
+    } else {
+      const q1_index=Math.min(req.session.level[0],req.session.level[1]);
+      const q2_index=Math.max(req.session.level[0],req.session.level[1]);
+      let q1 = questions[q1_index - 1];
+      var active={q1: true};
+      let q2 = questions[q2_index - 1];
+      if(qno!=q1.q_no){
+        if(qno == q2.q_no){
+          active.q1=false;
+        }
+        else{
+          active.q1=true;
+        }
+      }
+      res.render('index', { q1,q2, layout:'play_layout',active , func: 0 });
+    }
+    console.log(req.session.level);
   }
-  console.log(req.session.level);
+  else{
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
+
 });
 
 //leaderboard to be done later
@@ -257,12 +291,12 @@ router.get('/leaderboard', async function (req, res, next) {
   const rank = await get_rank(req.session.email);
   // const uname = await get_username(req.session.email);
   console.log('rank is :', rank);
-  console.log('THE LEADERBOARD DATA:', leaderboard_id, leaderboard_level);
+  console.log('THE LEADERBOARD DATA:', leaderboard_id, leaderboard_score);
   res.render('leaderboard', {
     layout: 'layout_empty',
     Rank: rank,
     User_Id: uname,
-    My_Level: req.session.level-1,
+    My_score: req.session.score,
     userid_1: leaderboard_id[0],
     userid_2: leaderboard_id[1],
     userid_3: leaderboard_id[2],
@@ -283,26 +317,26 @@ router.get('/leaderboard', async function (req, res, next) {
     userid_18: leaderboard_id[17],
     userid_19: leaderboard_id[18],
     userid_20: leaderboard_id[19],
-    level_1: Math.max(leaderboard_level[0]-1,0),
-    level_2: Math.max(leaderboard_level[1]-1,0),
-    level_3: Math.max(leaderboard_level[2]-1,0),
-    level_4: Math.max(leaderboard_level[3]-1,0),
-    level_5: Math.max(leaderboard_level[4]-1,0),
-    level_6: Math.max(leaderboard_level[5]-1,0),
-    level_7: Math.max(leaderboard_level[6]-1,0),
-    level_8: Math.max(leaderboard_level[7]-1,0),
-    level_9: Math.max(leaderboard_level[8]-1,0),
-    level_10: Math.max(leaderboard_level[9]-1,0),
-    level_11: Math.max(leaderboard_level[10]-1,0),
-    level_12: Math.max(leaderboard_level[11]-1,0),
-    level_13: Math.max(leaderboard_level[12]-1,0),
-    level_14: Math.max(leaderboard_level[13]-1,0),
-    level_15: Math.max(leaderboard_level[14]-1,0),
-    level_16: Math.max(leaderboard_level[15]-1,0),
-    level_17: Math.max(leaderboard_level[16]-1,0),
-    level_18: Math.max(leaderboard_level[17]-1,0),
-    level_19: Math.max(leaderboard_level[18]-1,0),
-    level_20: Math.max(leaderboard_level[19]-1,0),
+    score_1: leaderboard_score[0],
+    score_2: leaderboard_score[1],
+    score_3: leaderboard_score[2],
+    score_4: leaderboard_score[3],
+    score_5: leaderboard_score[4],
+    score_6: leaderboard_score[5],
+    score_7: leaderboard_score[6],
+    score_8: leaderboard_score[7],
+    score_9: leaderboard_score[8],
+    score_10: leaderboard_score[9],
+    score_11: leaderboard_score[10],
+    score_12: leaderboard_score[11],
+    score_13: leaderboard_score[12],
+    score_14: leaderboard_score[13],
+    score_15: leaderboard_score[14],
+    score_16: leaderboard_score[15],
+    score_17: leaderboard_score[16],
+    score_18: leaderboard_score[17],
+    score_19: leaderboard_score[18],
+    score_20: leaderboard_score[19],
   });
 });
 

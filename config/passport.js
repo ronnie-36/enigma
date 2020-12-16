@@ -18,7 +18,8 @@ module.exports = function (passport) {
                     email: email.emails[0].value,
                     first_name: email.name.givenName,
                     last_name: email.name.familyName,
-                    level: 1
+                    score: 0,
+                    level: [1,2]
                 }
 
                 try {

@@ -26,7 +26,7 @@
 }
 
 body {
-    background-image: url(../img/backGround2.jpg);
+    background-image: url();
     color: white;
     font-size: 80%;
     line-height: normal !important;
@@ -34,7 +34,7 @@ body {
 }
 
 body.demo-2 {
-    background-image: url(../img/backGround2.jpg);
+    background-image: url();
 }
 
 .container {

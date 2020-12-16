@@ -17,6 +17,7 @@ router.get(
   (req, res) => {
         req.session.email = req.user.email;
         req.session.level = req.user.level;
+        req.session.score = req.user.score;
         req.session.save();
         store.clearAll();
         res.redirect('/home');

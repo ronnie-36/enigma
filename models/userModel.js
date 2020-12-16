@@ -23,8 +23,11 @@ const userSchema = new mongoose.Schema(
       required: true,
       unique: true,
     },
-    level: {
+    score: {
       type: Number,
+    },
+    level: {
+      type: Array,
     },
     last_write: {
       type: Date,

@@ -224,6 +224,25 @@ router.post('/getusername', async function (req, res, next) {
   }
 
 });
+//only for testing, to be included in play once date is finalized
+router.get('/countdown',function (req, res, next) {
+  if(req.isAuthenticated()){
+    res.render('', {layout:'countdown'});
+  }
+  else{
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
+});
+//only for testing, to be included in play once date is finalized
+router.get('/end',function (req, res, next) {
+  if(req.isAuthenticated()){
+    res.render('end', {layout:'play_layout'});
+  }
+  else{
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
+});
+
 
 router.get('/play', async function (req, res, next) {
   if(req.isAuthenticated()){
@@ -244,6 +263,7 @@ router.post('/play', async function (req, res) {
   if(req.isAuthenticated()){
     var ans = req.body.answer;
     var qno = req.body.qno;
+    console.log(ans.toLowerCase().replace(/\s/g, ''));
     //console.log(ans, answer[qno - 1]);
     level= req.session.level;
     if (ans == answer[qno - 1] && (qno==level[0] || qno==level[1]) ){

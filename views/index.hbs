@@ -59,12 +59,140 @@
         color: lightblue;
         font-size: 2.5vw;
     }
+
+    .timebox {
+        width: 240px;
+        text-align: center;
+        position: fixed;
+        bottom: 1em;
+        right: 1em;
+        font-family: 'Bubblegum Sans', cursive;
+    }
+
+    .tick {
+        font-size: 1rem;
+        white-space: nowrap;
+        font-family: arial, sans-serif;
+    }
+
+    .tick-flip,
+    .tick-text-inline {
+        font-size: 2.5em;
+    }
+
+    .tick-label {
+        margin-top: 1em;
+        font-size: 2em;
+    }
+
+    .tick-char {
+        width: 1.5em;
+    }
+
+    .tick-text-inline {
+        display: inline-block;
+        text-align: center;
+        min-width: 1em;
+    }
+
+    .tick-text-inline+.tick-text-inline {
+        margin-left: -.325em;
+    }
+
+    .tick-group {
+        margin: 0 .5em;
+        text-align: center;
+    }
+
+    .tick-text-inline {
+        color: #f4511e !important;
+    }
+
+    .tick-label {
+        margin-top: 0px !important;
+        color: #f4511e !important;
+        font-family: 'Bubblegum Sans', cursive;
+    }
+
+    .tick-flip-panel {
+        color: white !important;
+    }
+
+    .tick-flip {
+        font-family: inherit !important;
+    }
+
+    .tick-flip-panel-text-wrapper {
+        line-height: 1.45 !important;
+    }
+
+    .tick-flip-panel {
+        background-color: rgba(68, 0, 255, 0.87) !important;
+    }
+
+    .tick-flip {
+        border-radius: 0.12em !important;
+    }
 </style>
 <script>
     if ({{ func }} == 1)
     success();
-else if ({{ func }} == 0)
+    else if ({{ func }} == 0)
     fail();
+    else if ({{ func }}== 2)
+    close();
+</script>
+<link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
+<script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
+<script>
+    function handleTickInit(tick) {
+        // using this because initial labels are wrong
+        var locale = {
+            YEAR_PLURAL: 'Jaren',
+            YEAR_SINGULAR: 'Jaar',
+            MONTH_PLURAL: 'Maanden',
+            MONTH_SINGULAR: 'Maand',
+            WEEK_PLURAL: 'Weken',
+            WEEK_SINGULAR: 'Week',
+            DAY_PLURAL: 'HRS',
+            DAY_SINGULAR: 'HR',
+            HOUR_PLURAL: 'MINS',
+            HOUR_SINGULAR: 'MIN',
+            MINUTE_PLURAL: 'SEC',
+            MINUTE_SINGULAR: 'SEC',
+            SECOND_PLURAL: 'Seconden',
+            SECOND_SINGULAR: 'Seconde',
+            MILLISECOND_PLURAL: 'Milliseconden',
+            MILLISECOND_SINGULAR: 'Milliseconde'
+        };
+
+        for (var key in locale) {
+            if (!locale.hasOwnProperty(key)) { continue; }
+            tick.setConstant(key, locale[key]);
+        }
+        // format of due date is ISO8601
+        // https://en.wikipedia.org/wiki/ISO_8601
+
+        // '2018-01-31T12:00:00'        to count down to the 31st of January 2018 at 12 o'clock
+        // '2019'                       to count down to 2019
+        // '2018-01-15T10:00:00+01:00'  to count down to the 15th of January 2018 at 10 o'clock in timezone GMT+1
+
+        // create the countdown counter
+        var counter = Tick.count.down('2020-12-19T10:00:00+05:30', {
+            format: ['h', 'm', 's']
+        });
+
+        counter.onupdate = function (value) {
+            tick.value = value;
+        };
+
+        counter.onended = function () {
+            
+            window.location = '/end'
+            // show message, uncomment the next line
+            // document.querySelector('.tick-onended-message').style.display = '';
+        };
+    }
 </script>
 
 <body>
@@ -100,11 +228,22 @@ else if ({{ func }} == 0)
                                 </p>
                                 <div class="img_container">
                                     <div class="imagebox">
+                                        {{#if (eq q1.type 'youtube')}}
+                                        <iframe width="420" height="345"
+                                            src="https://www.youtube.com/embed/tgbNymZ7vqY"></iframe>
+                                        {{else if (eq q1.type 'video')}}
+                                        <video width="320" height="240" controls>
+                                            <source src="/images/test.mp4" type="video/mp4">
+                                            Your browser does not support the video tag.
+                                        </video>
+                                        {{else}}
                                         <img src="{{ q1.image_src1 }}" width="{{q1.img1_width}}"
                                             height="{{q1.img1_height}}">
+                                        {{/if}}
+
                                     </div>
                                     <div class="imagebox">
-                                        <img src= "{{ q1.img_src2 }}" width="{{q1.img2_width}}"
+                                        <img src="{{ q1.img_src2 }}" width="{{q1.img2_width}}"
                                             height="{{q1.img2_height}}" style="display: {{q1.image_status2}};">
                                     </div>
                                 </div>
@@ -131,8 +270,8 @@ else if ({{ func }} == 0)
                                             height="{{q2.img1_height}}">
                                     </div>
                                     <div class="imagebox">
-                                        <img src="{{q2.img_src2}}" width="{{q2.img2_width}}"
-                                            height="{{q2.img2_height}}" style="display: {{q2.image_status2}};">
+                                        <img src="{{q2.img_src2}}" width="{{q2.img2_width}}" height="{{q2.img2_height}}"
+                                            style="display: {{q2.image_status2}};">
                                     </div>
                                 </div>
                             </center>
@@ -151,5 +290,29 @@ else if ({{ func }} == 0)
             </div>
         </div>
     </section>
+    <div class="timebox">
+        <h4 style="text-align: center; color:#f4511e">TIME LEFT</h4>
+        <div class="tick" data-did-init="handleTickInit">
+
+            <div data-repeat="true" data-layout="horizontal fit" data-transform="preset(d, h, m, s) -> delay">
+
+                <div class="tick-group">
+
+                    <div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay">
+
+                        <span data-view="flip"></span>
+
+                    </div>
+
+                    <span data-key="label" data-view="text" class="tick-label"></span>
+
+                </div>
+
+            </div>
+        </div>
+    </div>
+    <div class="tick-onended-message" style="display:none">
+        <p>Time's up</p>
+    </div>
 
 </body>

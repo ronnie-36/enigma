@@ -9,6 +9,7 @@ module.exports = [{q_no:'1',
     img2_width:'0',
     img2_height:'0',
     image_status2 : 'none',
+    type : 'youtube'
 },
 {q_no:'2',
     //https://drive.google.com/open?id:1-OkpqOs2kMgXsMkC-1n7kpK2IXFPGbE_

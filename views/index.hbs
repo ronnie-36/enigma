@@ -133,6 +133,18 @@
     .tick-flip {
         border-radius: 0.12em !important;
     }
+
+    .backgroundRed {
+        background: rgb(255, 0, 0);
+    }
+    .collapsed #timeleft{
+        text-align: right!important;
+        margin-right: 0px!important;
+    }
+    .timeleftcenter{
+        text-align: center; 
+        color:#f4511e;
+    }
 </style>
 <script>
     if ({{ func }} == 1)
@@ -178,23 +190,27 @@
         // '2018-01-15T10:00:00+01:00'  to count down to the 15th of January 2018 at 10 o'clock in timezone GMT+1
 
         // create the countdown counter
-        var counter = Tick.count.down('2020-12-19T10:00:00+05:30', {
+        var counter = Tick.count.down('2020-12-19T09:47:00+05:30', {
             format: ['h', 'm', 's']
         });
 
         counter.onupdate = function (value) {
             tick.value = value;
+            if (Tick.helper.duration(Tick.helper.date(), Tick.helper.date('2020-12-19T09:47:00+05:30'), ['s'])[0] == 10) {
+                setInterval(function () {
+                    $("#timebox").toggleClass("backgroundRed");
+                }, 500)
+            };
         };
 
         counter.onended = function () {
-            
+
             window.location = '/end'
             // show message, uncomment the next line
             // document.querySelector('.tick-onended-message').style.display = '';
         };
     }
 </script>
-
 <body>
     <section id="tabs" class="project-tab">
         <div class="container">
@@ -290,9 +306,11 @@
             </div>
         </div>
     </section>
-    <div class="timebox">
-        <h4 style="text-align: center; color:#f4511e">TIME LEFT</h4>
-        <div class="tick" data-did-init="handleTickInit">
+    <div class="timebox" id="timebox">
+        <a data-toggle="collapse" href="#collapse" role="button" aria-expanded="false" aria-controls="collapse">
+            <h4 class="timeleftcenter" id="timeleft">TIME LEFT</h4>
+        </a>
+        <div class="tick collapse show" data-did-init="handleTickInit" id="collapse">
 
             <div data-repeat="true" data-layout="horizontal fit" data-transform="preset(d, h, m, s) -> delay">
 

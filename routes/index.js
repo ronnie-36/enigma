@@ -246,6 +246,16 @@ router.get('/end',function (req, res, next) {
 
 router.get('/play', async function (req, res, next) {
   if(req.isAuthenticated()){
+    // to be used for countdown and finish page
+    // var curDateTime = new Date();
+    // var end=new Date('enddate here');
+    // var start=new Date('startdate here');
+    // if(curDateTime.getTime() > end.getTime()){
+    //   res.render('end', {layout:'play_layout'});
+    // }
+    // else if(curDateTime.getTime() < start.getTime()){
+    //   res.render('', {layout:'countdown'});
+    // }
     console.log('CURRENT LEVEL', req.session.level);
     const q1_index=Math.min(req.session.level[0],req.session.level[1]);
     const q2_index=Math.max(req.session.level[0],req.session.level[1]);
@@ -275,6 +285,11 @@ router.post('/play', async function (req, res) {
       let q2 = questions[q2_index - 1];
       res.render('index', { q1,q2, layout:'play_layout',active:{q1: true} , func: 1 });
     } else {
+      const close_ans=['iiti','enigmaiiti','tqc']; // to be done through db
+      var fun=0;
+      if(close_ans.includes(ans)){
+        fun=2;
+      }
       const q1_index=Math.min(req.session.level[0],req.session.level[1]);
       const q2_index=Math.max(req.session.level[0],req.session.level[1]);
       let q1 = questions[q1_index - 1];
@@ -288,7 +303,7 @@ router.post('/play', async function (req, res) {
           active.q1=true;
         }
       }
-      res.render('index', { q1,q2, layout:'play_layout',active , func: 0 });
+      res.render('index', { q1,q2, layout:'play_layout',active , func: fun });
     }
     console.log(req.session.level);
   }

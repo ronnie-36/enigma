@@ -90,3 +90,10 @@
 .left{
     text-align: justify;
 }
+dd{
+    margin: 0px 10px;
+}
+ol{ 
+    margin: 0;
+    padding: 0px 20px;
+}

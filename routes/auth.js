@@ -19,7 +19,7 @@ router.get(
         req.session.level = req.user.level;
         req.session.score = req.user.score;
         req.session.save();
-        store.clearAll();
+        //store.clearAll();
         res.redirect('/home');
     }
 );

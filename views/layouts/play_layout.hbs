@@ -55,8 +55,8 @@
                         <a class="nav-link" href="/leaderboard" target="_blank">Leaderboard</a>
                     </li>
                     <li class="dropdown">
-                        <a class="nav-item nav-link" href="#" data-toggle="dropdown">Account <i class="fa fa-caret-right"
-                                aria-hidden="true"></i></a>
+                        <a class="nav-item nav-link" href="#" data-toggle="dropdown">Account <i
+                                class="fa fa-caret-right" aria-hidden="true"></i></a>
                         <div class="dropdown-menu" id="navbarDropdown">
                             <a href="/profile" class="dropdown-item">Profile</a>
                             <a href="/auth/logout" class="dropdown-item">Logout</a>
@@ -65,33 +65,32 @@
                     <li class="nav-item">
                         <a class="nav-link last" href="https://discord.gg/SdwR2zW" target="_blank">Forum</a>
                     </li>
-                        <div class="timebox" id="timebox">
-                            <a data-toggle="collapse" href="#collapse" role="button" aria-expanded="false"
-                                aria-controls="collapse">
-                                <h4 class="timeleftcenter" id="timeleft">TIME LEFT</h4>
-                            </a>
-                            <div class="tick collapse show" data-did-init="handleTickInit" id="collapse">
+                </ul>
+                <div class="timebox" id="timebox">
+                    <a data-toggle="collapse" href="#collapse" role="button" aria-expanded="false"
+                        aria-controls="collapse">
+                        <h4 class="timeleftcenter" id="timeleft">TIME LEFT</h4>
+                    </a>
+                    <div class="tick collapse show" data-did-init="handleTickInit" id="collapse">
 
-                                <div data-repeat="true" data-layout="horizontal fit"
-                                    data-transform="preset(d, h, m, s) -> delay">
+                        <div data-repeat="true" data-layout="horizontal fit"
+                            data-transform="preset(h, m, s) -> delay">
 
-                                    <div class="tick-group">
+                            <div class="tick-group">
 
-                                        <div data-key="value" data-repeat="true"
-                                            data-transform="pad(00) -> split -> delay">
+                                <div data-key="value" data-repeat="true" data-transform="pad(00) -> split -> delay">
 
-                                            <span data-view="flip"></span>
-
-                                        </div>
-
-                                        <span data-key="label" data-view="text" class="tick-label"></span>
-
-                                    </div>
+                                    <span data-view="flip"></span>
 
                                 </div>
+
+                                <span data-key="label" data-view="text" class="tick-label"></span>
+
                             </div>
+
                         </div>
-                </ul>
+                    </div>
+                </div>
             </div>
         </div>
     </nav>

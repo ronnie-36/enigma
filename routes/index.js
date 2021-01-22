@@ -168,19 +168,29 @@ router.get('/signup', function (req, res, next) {
 
 router.get('/home', function (req, res, next) {
   if(req.isAuthenticated()){
-  res.render('home', { layout: 'layout_static' });
+    if(store.get('type')=='login'){
+      store.clearAll();
+      res.render('home', { func: 'login_successful()', layout: 'layout_static' });
+    }
+    else if(store.get('type')=='register'){
+      store.clearAll();
+      res.render('home', { func: 'register_successful()', layout: 'layout_static' });
+    }
+    else{
+    res.render('home', { layout: 'layout_static' });
+    }
   }
   else{
   res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
   }
 });
 
-router.get('/success', function (req, res, next) {
-  res.render('home', { func: 'register_successful()', layout: 'layout_static' });
-});
-router.get('/loginsuccess', function (req, res, next) {
-  res.render('home', { func: 'login_successful()', layout: 'layout_static' });
-});
+// router.get('/success', function (req, res, next) {
+//   res.render('home', { func: 'register_successful()', layout: 'layout_static' });
+// });
+// router.get('/loginsuccess', function (req, res, next) {
+//   res.render('home', { func: 'login_successful()', layout: 'layout_static' });
+// });
 router.get('/failure', function (req, res, next) {
   res.render('landing', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
 });

@@ -271,7 +271,15 @@ router.get('/play', async function (req, res, next) {
     const q2_index=Math.max(req.session.level[0],req.session.level[1]);
     let q1 = questions[q1_index - 1];
     let q2 = questions[q2_index - 1];
-    res.render('index', {q1,q2,active:{q1: true} , layout:'play_layout'});
+    let last = false;
+    // for completion
+    // if(q2_index>28 && q1_index>28){
+    //   //finished page
+    // }
+    if(q2_index>28){
+      last=true;
+    }
+    res.render('index', {q1, q2, active:{q1: true}, last, layout:'play_layout'});
   // res.render('index', {...currentQuestion,func:1});
   }
   else{
@@ -293,7 +301,10 @@ router.post('/play', async function (req, res) {
       const q2_index=Math.max(req.session.level[0],req.session.level[1]);
       let q1 = questions[q1_index - 1];
       let q2 = questions[q2_index - 1];
-      res.render('index', { q1,q2, layout:'play_layout',active:{q1: true} , func: 1 });
+      if(q2_index>28){
+        last=true;
+      }
+      res.render('index', { q1,q2, layout:'play_layout',active:{q1: true}, last , func: 1 });
     } else {
       const close_ans=['iiti','enigmaiiti','tqc']; // to be done through db
       var fun=0;
@@ -313,7 +324,10 @@ router.post('/play', async function (req, res) {
           active.q1=true;
         }
       }
-      res.render('index', { q1,q2, layout:'play_layout',active , func: fun });
+      if(q2_index>28){
+        last=true;
+      }
+      res.render('index', { q1,q2, layout:'play_layout', active, last, func: fun });
     }
     console.log(req.session.level);
   }

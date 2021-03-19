@@ -10,36 +10,36 @@ const MongoClient = require('mongodb').MongoClient;
 const crypto = require('crypto');
 const store = require('store');
 const User = require('../models/userModel');
-
+const Answer = require('../models/answerModel');
 var answer = [
-  'enigma',
-  'mikhailstolyarov',
-  'marenostrumsupercomputer',
-  'ramsteinairshow',
-  'allmight',
-  'frenchrevolution',
-  'splitwise',
-  'rapgod',
-  'colonnade',
-  'michaelcaine',
-  'helloworld',
-  'coronavirus',
-  'robertoppenheimer',
-  'dumbledoresoffice',
-  'stevecarell',
-  'wallaceandgromit',
-  'boromir',
-  'cid',
-  'voldemort',
-  'silencedogood',
-  'boeingsca',
-  'tombombadil',
-  'followthedrinkinggourd',
-  'michelangelomerisidacaravaggio',
-  'airforcetwo',
-  'rasputin',
-  'wintergatan',
-  'orsonscottcard',
+  'on',
+  '14159265',
+  'love',
+  'easy',
+  'terminate',
+  'halloween',
+  'radio',
+  'finale',
+  'hemingway',
+  'greenharmony',
+  'crypted',
+  'stevebuscemi',
+  'depression'
+];
+var close_ans = [
+  [],
+  ['14','141'],
+  [],
+  [],
+  [],
+  [],
+  [],
+  [],
+  ['mojito'],
+  ['monet','thewaterlilypond'],
+  [],
+  [],
+  ['ungdomshuset']
 ];
 // var uname;//make this particular to a session
 
@@ -226,7 +226,6 @@ router.post('/getusername', async function (req, res, next) {
   if (userExists) {
     res.status(400);
     res.render('', { func: 'exists()', layout: 'register' });
-    throw new Error('Username already exists');
   }
   else{
     store.set('id',username);
@@ -273,10 +272,10 @@ router.get('/play', async function (req, res, next) {
     let q2 = questions[q2_index - 1];
     let last = false;
     // for completion
-    // if(q2_index>28 && q1_index>28){
-    //   //finished page
-    // }
-    if(q2_index>28){
+    if(q2_index>13 && q1_index>13){
+      res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
+    }
+    if(q2_index>13){
       last=true;
     }
     res.render('index', {q1, q2, active:{q1: true}, last, layout:'play_layout'});
@@ -289,51 +288,58 @@ router.get('/play', async function (req, res, next) {
 
 router.post('/play', async function (req, res) {
   if(req.isAuthenticated()){
+    let login=true;
     var ans = req.body.answer;
     var qno = req.body.qno;
     console.log(ans.toLowerCase().replace(/\s/g, ''));
     //console.log(ans, answer[qno - 1]);
     level= req.session.level;
+    let last = false;
     if (ans == answer[qno - 1] && (qno==level[0] || qno==level[1]) ){
+      var fun=1;
       req.session.score++;
       await update_score(req,req.session.email, req.session.score,qno);
       const q1_index=Math.min(req.session.level[0],req.session.level[1]);
       const q2_index=Math.max(req.session.level[0],req.session.level[1]);
       let q1 = questions[q1_index - 1];
       let q2 = questions[q2_index - 1];
-      if(q2_index>28){
+      if(q2_index>13){
         last=true;
       }
-      res.render('index', { q1,q2, layout:'play_layout',active:{q1: true}, last , func: 1 });
+      res.send({q1, q2, active:{q1: true}, last, fun, login});
+      //res.render('index', { q1,q2, layout:'play_layout',active:{q1: true}, last , func: 1 });
     } else {
-      const close_ans=['iiti','enigmaiiti','tqc']; // to be done through db
+      // const close_ans=['iiti','enigmaiiti','tqc']; // to be done through db
       var fun=0;
-      if(close_ans.includes(ans)){
+      if(close_ans[qno-1].includes(ans)){
         fun=2;
       }
       const q1_index=Math.min(req.session.level[0],req.session.level[1]);
       const q2_index=Math.max(req.session.level[0],req.session.level[1]);
-      let q1 = questions[q1_index - 1];
-      var active={q1: true};
-      let q2 = questions[q2_index - 1];
-      if(qno!=q1.q_no){
-        if(qno == q2.q_no){
-          active.q1=false;
-        }
-        else{
-          active.q1=true;
-        }
-      }
-      if(q2_index>28){
+      // let q1 = questions[q1_index - 1];
+      // var active={q1: true};
+      // let q2 = questions[q2_index - 1];
+      // if(qno!=q1.q_no){
+      //   if(qno == q2.q_no){
+      //     active.q1=false;
+      //   }
+      //   else{
+      //     active.q1=true;
+      //   }
+      // }
+      if(q2_index>13){
         last=true;
       }
-      res.render('index', { q1,q2, layout:'play_layout', active, last, func: fun });
+      res.send({fun, last, login});
+      // res.render('index', { q1,q2, layout:'play_layout', active, last, func: fun });
     }
     console.log(req.session.level);
   }
   else{
-    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
+    let login=false;
+    res.send({login});
+    // res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  }
 
 });
 

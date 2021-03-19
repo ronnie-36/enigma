@@ -231,3 +231,86 @@ input[type=submit]:hover{
     transform: scaleY(1);
   }
 }
+
+.project-tab {
+  margin-top: -1%;
+}
+
+.project-tab #tabs {
+  background: #007b5e;
+  color: #eee;
+}
+
+.project-tab #tabs h6.section-title {
+  color: #eee;
+}
+
+.project-tab #tabs .nav-tabs .nav-item.show .nav-link,
+.nav-tabs .nav-link.active {
+  color: #0062cc;
+  background-color: transparent;
+  border-color: transparent transparent #f3f3f3;
+  border-bottom: 3px solid !important;
+  font-size: 25px;
+  font-weight: bold;
+}
+
+.project-tab .nav-link {
+  border: 1px solid transparent;
+  border-top-left-radius: .25rem;
+  border-top-right-radius: .25rem;
+  color: #0062cc;
+  font-size: 20px;
+  font-weight: 600;
+}
+
+.project-tab .nav-link:hover {
+  border: none;
+}
+
+.project-tab thead {
+  background: #f3f3f3;
+  color: #333;
+}
+
+.project-tab a {
+  text-decoration: none;
+  color: #333;
+  font-weight: 600;
+}
+
+.imagebox {
+  width: 60%;
+  height: 40%;
+  margin-bottom: 4px;
+}
+
+#question_description a {
+  color: lightblue;
+  font-size: 2.2vw;
+}
+
+@media screen and (max-width: 990px) {
+  .imagebox {
+      width: 100%;
+      height: 100%;
+      margin-bottom: 4px;
+  }
+
+  #question_description a {
+      color: lightblue;
+      font-size: 5vw;
+  }
+}
+@media screen and (max-width: 600px) {
+  #question_description a {
+      color: lightblue;
+      font-size: 6vw;
+  }
+}
+@media screen and (max-width: 990px) and (min-width :600px) {
+  #question_description a {
+      color: lightblue;
+      font-size: 4vw;
+  }
+}

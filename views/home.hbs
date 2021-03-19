@@ -99,25 +99,37 @@ a.pulsingButton:hover {
         }
     })
     function register_successful() {
-        setTimeout(Toast.fire({
+      if(!sessionStorage.getItem("registerflash")){
+        Toast.fire({
             icon: 'success',
             title: 'Registered Successfully'
-        }), 3000);
+        });
+        sessionStorage.setItem("registerflash", "true");
+      }
     }
     function login_successful() {
-        setTimeout(Toast.fire({
+      if(!sessionStorage.getItem("loginflash")){
+        Toast.fire({
             icon: 'success',
             title: 'Logged in Successfully'
-        }), 3000);
-        Toast.dismiss();
+        });
+        sessionStorage.setItem("loginflash", "true");
+      }
     }
+    window.addEventListener("load", () => {
+        document.querySelector("#clear").addEventListener("click", e => {
+            console.log("here");
+            sessionStorage.removeItem('loginflash');
+            sessionStorage.removeItem('registerflash');
+        });
+    });
 </script>
 <div class="dropdown">
 <a class="pulsingButton" style="position: absolute; right:15px"><span class="fa fa-bars"></span></a>
 <div class="dropdown-content">
     <a href="/profile">Profile</a>
-    <a href="\leaderboard" target='_blank'>Leaderboard</a>
-    <a href="/auth/logout">Logout</a>
+    <a href="/leaderboard" target='_blank'>Leaderboard</a>
+    <a id="clear" href="/auth/logout">Logout</a>
 </div>
 </div>
 <br />

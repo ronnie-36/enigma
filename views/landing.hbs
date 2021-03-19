@@ -13,35 +13,23 @@
             toast.addEventListener('mouseleave', Swal.resumeTimer)
         }
     })
-    function register_successful() {
-        setTimeout(Toast.fire({
-            icon: 'success',
-            title: 'Registered Successfully'
-        }), 3000);
-
-    }
     function not_logged_in() {
         setTimeout(Toast.fire({
             icon: 'error',
-            title: 'NOT AUTHORIZED. Log in Required.'
+            title: 'NOT AUTHORIZED.\n Log in Required.'
         }), 3000);
-
     }
     function register_fail() {
         var message = '';
         {{#if error }}
         message = '{{error}}';
         {{/if}}
-        console.log(message);
+        //console.log(message);
         setTimeout(Toast.fire({
             icon: 'error',
             title: 'FAILED.\n' + message
         }), 5000);
 
-    }
-    function wrong_password() {
-
-        alert("Wrong Password!");
     }
 </script>
 
@@ -85,5 +73,5 @@
 {{!-- <p class="dummy-text">
     <!-- <button class="button" style="vertical-align:middle"><span><a href="https://www.fluxus.co.in/aboutTech-Fluxus/aboutTech-Fluxus/strategai.pdf" download="" target="_blank">Download Rule Booklet</a></span></button> -->
 </p> --}}
-<a href="/login"><button class="button" style="vertical-align:middle; width:auto;"><span>Existing User?</span></button></a>
+<a href="/login"><button class="button" style="vertical-align:middle; width:auto;"><span>Existing User</span></button></a>
 <a href="signup"><button class="button" style="vertical-align:middle"><span>New User</span></button></a>

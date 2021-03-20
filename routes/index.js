@@ -260,7 +260,7 @@ router.get('/play', async function (req, res, next) {
     //to be used for countdown and finish page
     var curDateTime = new Date();
     var end=new Date("2021-03-21T00:29:57+05:30");
-    var start=new Date('2021-03-20T19:39:58+05:30');
+    var start=new Date('2021-03-20T19:44:57+05:30');
     //console.log(curDateTime.getTime() < start.getTime());
     if(curDateTime.getTime() > end.getTime()){
       res.render('end', {layout:'play_layout'});

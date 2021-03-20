@@ -87,7 +87,7 @@ function get_rank(email) {
     itr = 0;
 
     User.find()
-      .sort({ score: -1, last_write: 1 })
+      .sort({ score: -1, updatedAt: 1 })
       .exec(function (err, result) {
         if (err) throw err;
         var userrank = 0;
@@ -235,38 +235,38 @@ router.post('/getusername', async function (req, res, next) {
   }
 
 });
-//only for testing, to be included in play once date is finalized
-router.get('/countdown',function (req, res, next) {
-  if(req.isAuthenticated()){
-    res.render('', {layout:'countdown'});
-  }
-  else{
-    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
-});
-//only for testing, to be included in play once date is finalized
-router.get('/end',function (req, res, next) {
-  if(req.isAuthenticated()){
-    res.render('end', {layout:'play_layout'});
-  }
-  else{
-    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
-});
+// //only for testing, to be included in play once date is finalized
+// router.get('/countdown',function (req, res, next) {
+//   if(req.isAuthenticated()){
+//     res.render('', {layout:'countdown'});
+//   }
+//   else{
+//     res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+//     }
+// });
+// //only for testing, to be included in play once date is finalized
+// router.get('/end',function (req, res, next) {
+//   if(req.isAuthenticated()){
+//     res.render('end', {layout:'play_layout'});
+//   }
+//   else{
+//     res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+//     }
+// });
 
 
 router.get('/play', async function (req, res, next) {
   if(req.isAuthenticated()){
-    // to be used for countdown and finish page
-    // var curDateTime = new Date();
-    // var end=new Date('enddate here');
-    // var start=new Date('startdate here');
-    // if(curDateTime.getTime() > end.getTime()){
-    //   res.render('end', {layout:'play_layout'});
-    // }
-    // else if(curDateTime.getTime() < start.getTime()){
-    //   res.render('', {layout:'countdown'});
-    // }
+    //to be used for countdown and finish page
+    var curDateTime = new Date();
+    var end=new Date("March 21, 2021 00:00:00");
+    var start=new Date('March 20, 2021 19:00:00');
+    if(curDateTime.getTime() > end.getTime()){
+      res.render('end', {layout:'play_layout'});
+    }
+    else if(curDateTime.getTime() < start.getTime()){
+      res.render('', {layout:'countdown'});
+    }
     console.log('CURRENT LEVEL', req.session.level);
     // for completion
     if(Math.min(...req.session.level)>14){

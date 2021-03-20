@@ -40,7 +40,7 @@
           }
           
           var t = Date.parse(deadline) - Date.parse(new Date());
-          t = 10000; // only for testing before dates are finalized
+          //t = 10000; // only for testing before dates are finalized
           var clock = $(obj).FlipClock(t/1000, {
             clockFace: 'DailyCounter',
             countdown: true,

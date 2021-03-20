@@ -12,16 +12,19 @@
                             {{#if active.q1}}
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
                                 href="#nav-{{ q1.q_no }}" role="tab" aria-controls="nav-home" aria-selected="true">{{
-                                q1.q_no }}</a>
-                            <a class="nav-item nav-link {{#if last}} disabled {{/if}}" id="nav-profile-tab"
+                                q1.q_no }} {{#if done.q1}}<i class="fa fa-check" style="color: green;"></i>{{/if}}</a>
+                            <a class="nav-item nav-link {{#if last}} disabled {{/if}} {{#if done.q2}} disabled {{/if}}" id="nav-profile-tab"
                                 data-toggle="tab" href="#nav-{{ q2.q_no }}" role="tab" aria-controls="nav-profile"
-                                aria-selected="false">{{ q2.q_no }}</a>
+                                aria-selected="false">{{ q2.q_no }} {{#if done.q2}}<i class="fa fa-check"
+                                    style="color: green;"></i>{{/if}}</a>
                             {{else}}
-                            <a class="nav-item nav-link" id="nav-home-tab" data-toggle="tab" href="#nav-{{ q1.q_no }}"
-                                role="tab" aria-controls="nav-home" aria-selected="true">{{ q1.q_no }}</a>
+                            <a class="nav-item nav-link {{#if done.q1}} disabled {{/if}}" id="nav-home-tab" data-toggle="tab" href="#nav-{{ q1.q_no }}"
+                                role="tab" aria-controls="nav-home" aria-selected="true">{{ q1.q_no }} {{#if done.q1}}<i
+                                    class="fa fa-check" style="color: green;"></i>{{/if}}</a>
                             <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab"
                                 href="#nav-{{ q2.q_no }}" role="tab" aria-controls="nav-profile"
-                                aria-selected="false">{{ q2.q_no }}</a>
+                                aria-selected="false">{{ q2.q_no }} {{#if done.q2}}<i class="fa fa-check"
+                                    style="color: green;"></i>{{/if}}</a>
                             {{/if}}
                         </div>
                     </nav>
@@ -31,13 +34,13 @@
                             role="tabpanel" aria-labelledby="nav-home-tab">
                             <center>
                                 <p id="question_description">
-                                {{#if (eq q1.link '#')}}
+                                    {{#if (eq q1.link '#')}}
                                     <a id="text_hyper">
                                         {{q1.q_des}}
                                     </a>
-                                {{else}}
+                                    {{else}}
                                     <a href="{{q1.link}}" id="text_hyper" target='_blank'>{{q1.q_des}}</a>
-                                {{/if}}
+                                    {{/if}}
                                 </p>
                                 <!-- {{ q1.comment }} -->
                                 <div class="img_container">
@@ -59,7 +62,7 @@
                                             height="{{q1.res1_height}}">
                                         {{/if}}
                                     </div>
-                                {{#if (eq q1.res2_present 'true')}}
+                                    {{#if (eq q1.res2_present 'true')}}
                                     <div class="imagebox">
                                         {{#if (eq q1.res2_type 'youtube')}}
                                         <iframe width="420" height="345" src="{{q1.res2_link}}"></iframe>
@@ -77,8 +80,8 @@
                                         <img src="{{ q1.res2_link }}" width="{{q1.res2_width}}"
                                             height="{{q1.res2_height}}">
                                         {{/if}}
-                                    </div>    
-                                {{/if}}
+                                    </div>
+                                    {{/if}}
                                 </div>
                             </center>
                             <br>
@@ -95,13 +98,13 @@
                             role="tabpanel" aria-labelledby="nav-profile-tab">
                             <center>
                                 <p id="question_description">
-                                {{#if (eq q2.link '#')}}
+                                    {{#if (eq q2.link '#')}}
                                     <a id="text_hyper">
                                         {{q2.q_des}}
                                     </a>
-                                {{else}}
+                                    {{else}}
                                     <a href="{{q2.link}}" id="text_hyper" target='_blank'>{{q2.q_des}}</a>
-                                {{/if}}
+                                    {{/if}}
                                 </p>
                                 <!-- {{ q2.comment }} -->
                                 <div class="img_container">
@@ -123,7 +126,7 @@
                                             height="{{q2.res1_height}}">
                                         {{/if}}
                                     </div>
-                                {{#if (eq q2.res2_present 'true')}}
+                                    {{#if (eq q2.res2_present 'true')}}
                                     <div class="imagebox">
                                         {{#if (eq q2.res2_type 'youtube')}}
                                         <iframe width="420" height="345" src="{{q2.res2_link}}"></iframe>
@@ -141,8 +144,8 @@
                                         <img src="{{ q2.res2_link }}" width="{{q2.res2_width}}"
                                             height="{{q2.res2_height}}">
                                         {{/if}}
-                                    </div>    
-                                {{/if}}
+                                    </div>
+                                    {{/if}}
                                 </div>
                             </center>
                             <br>

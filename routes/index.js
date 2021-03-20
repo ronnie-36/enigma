@@ -24,7 +24,8 @@ var answer = [
   'greenharmony',
   'crypted',
   'stevebuscemi',
-  'depression'
+  'depression',
+  'enigma'
 ];
 var close_ans = [
   [],
@@ -39,20 +40,21 @@ var close_ans = [
   ['monet','thewaterlilypond'],
   [],
   [],
-  ['ungdomshuset']
+  ['ungdomshuset'],
+  []
 ];
 // var uname;//make this particular to a session
 
-async function update_score(req, email, score, qno) {
+async function update_score(req, email, score) {
   const user = await User.findOne({ email });
   user.score = score;
-  const nextQno=Math.max(req.session.level[0],req.session.level[1])+1;
-  if(req.session.level[0]==qno){
-    req.session.level[0]=nextQno;
-  }
-  else{
-    req.session.level[1]=nextQno;
-  }
+  // const nextQno=Math.max(req.session.level[0],req.session.level[1])+1;
+  // if(req.session.level[0]==qno){
+  //   req.session.level[0]=nextQno;
+  // }
+  // else{
+  //   req.session.level[1]=nextQno;
+  // }
   user.level=req.session.level;
   user.save();
 }
@@ -266,20 +268,47 @@ router.get('/play', async function (req, res, next) {
     //   res.render('', {layout:'countdown'});
     // }
     console.log('CURRENT LEVEL', req.session.level);
-    const q1_index=Math.min(req.session.level[0],req.session.level[1]);
-    const q2_index=Math.max(req.session.level[0],req.session.level[1]);
-    let q1 = questions[q1_index - 1];
-    let q2 = questions[q2_index - 1];
-    let last = false;
     // for completion
-    if(q2_index>13 && q1_index>13){
+    if(Math.min(...req.session.level)>14){
       res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
     }
-    if(q2_index>13){
-      last=true;
+    let last = false;
+    if(req.session.level.length == 2){
+      const q1_index=req.session.level[0];
+      const q2_index=req.session.level[1];
+      let q1 = questions[q1_index - 1];
+      let q2 = questions[q2_index - 1];
+      if(q2_index>14){
+        last=true;
+      }
+      var done={q1: false, q2:false};
+      res.render('index',{q1, q2, active:{q1: true}, last, done, layout:'play_layout'});
     }
-    res.render('index', {q1, q2, active:{q1: true}, last, layout:'play_layout'});
-  // res.render('index', {...currentQuestion,func:1});
+    else if(req.session.level.length == 1){
+      const cur_ques = req.session.level[0];
+      var done={q1: false, q2:false};
+      var active={q1: true};
+      var q1_index;
+      var q2_index;
+      if(cur_ques&1){
+        done.q2=true;
+        active.q1=true;
+        q1_index=cur_ques;
+        q2_index=cur_ques+1;
+      }
+      else{
+        done.q1=true;
+        active.q1=false; 
+        q1_index=cur_ques-1;
+        q2_index=cur_ques;
+      }
+      let q1 = questions[q1_index - 1];
+      let q2 = questions[q2_index - 1];  
+      if(q2_index>14){
+        last=true;
+      }
+      res.render('index', {q1, q2, active, done, last, layout:'play_layout'});
+    }
   }
   else{
   res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
@@ -294,19 +323,27 @@ router.post('/play', async function (req, res) {
     console.log(ans.toLowerCase().replace(/\s/g, ''));
     //console.log(ans, answer[qno - 1]);
     level= req.session.level;
+    const prevlevel=[...level];
     let last = false;
-    if (ans == answer[qno - 1] && (qno==level[0] || qno==level[1]) ){
+    if (ans == answer[qno - 1] && level.includes(Number(qno)) ){
       var fun=1;
       req.session.score++;
-      await update_score(req,req.session.email, req.session.score,qno);
-      const q1_index=Math.min(req.session.level[0],req.session.level[1]);
-      const q2_index=Math.max(req.session.level[0],req.session.level[1]);
-      let q1 = questions[q1_index - 1];
-      let q2 = questions[q2_index - 1];
-      if(q2_index>13){
-        last=true;
+      if(level.length == 2){
+        if(qno==level[0]){
+          req.session.level.shift();
+          await update_score(req,req.session.email, req.session.score);
+        }
+        else{
+          req.session.level.pop();
+          await update_score(req,req.session.email, req.session.score);
+        }
+        //res.send({q1, q2, active, last, done, fun, login});
       }
-      res.send({q1, q2, active:{q1: true}, last, fun, login});
+      else if(level.length == 1){
+        req.session.level=[req.session.score+1,req.session.score+2];
+        await update_score(req,req.session.email, req.session.score);
+      }
+      res.send({fun, login});
       //res.render('index', { q1,q2, layout:'play_layout',active:{q1: true}, last , func: 1 });
     } else {
       // const close_ans=['iiti','enigmaiiti','tqc']; // to be done through db
@@ -327,7 +364,7 @@ router.post('/play', async function (req, res) {
       //     active.q1=true;
       //   }
       // }
-      if(q2_index>13){
+      if(q2_index>14){
         last=true;
       }
       res.send({fun, last, login});

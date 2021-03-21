@@ -126,106 +126,13 @@
       </tr>
     </thead>
     <tbody>
+      {{#each lb_data}}
       <tr>
-        <td>1</td>
-        <td>{{userid_1}}</td>
-        <td>{{score_1}}</td>
+        <td>{{inc @index}}</td>
+        <td>{{this.name}}</td>
+        <td>{{this.score}}</td>
       </tr>
-      <tr>
-        <td>2</td>
-        <td>{{userid_2}}</td>
-        <td>{{score_2}}</td>
-      </tr>
-      <tr>
-        <td>3</td>
-        <td>{{userid_3}}</td>
-        <td>{{score_3}}</td>
-      </tr>
-      <tr>
-        <td>4</td>
-        <td>{{userid_4}}</td>
-        <td>{{score_4}}</td>
-      </tr>
-      <tr>
-        <td>5</td>
-        <td>{{userid_5}}</td>
-        <td>{{score_5}}</td>
-      </tr>
-      <tr>
-        <td>6</td>
-        <td>{{userid_6}}</td>
-        <td>{{score_6}}</td>
-      </tr>
-      <tr>
-        <td>7</td>
-        <td>{{userid_7}}</td>
-        <td>{{score_7}}</td>
-      </tr>
-      <tr>
-        <td>8</td>
-        <td>{{userid_8}}</td>
-        <td>{{score_8}}</td>
-      </tr>
-      <tr>
-        <td>9</td>
-        <td>{{userid_9}}</td>
-        <td>{{score_9}}</td>
-      </tr>
-      <tr>
-        <td>10</td>
-        <td>{{userid_10}}</td>
-        <td>{{score_10}}</td>
-      </tr>
-      <tr>
-        <td>11</td>
-        <td>{{userid_11}}</td>
-        <td>{{score_11}}</td>
-      </tr>
-      <tr>
-        <td>12</td>
-        <td>{{userid_12}}</td>
-        <td>{{score_12}}</td>
-      </tr>
-      <tr>
-        <td>13</td>
-        <td>{{userid_13}}</td>
-        <td>{{score_13}}</td>
-      </tr>
-      <tr>
-        <td>14</td>
-        <td>{{userid_14}}</td>
-        <td>{{score_14}}</td>
-      </tr>
-      <tr>
-        <td>15</td>
-        <td>{{userid_15}}</td>
-        <td>{{score_15}}</td>
-      </tr>
-      <tr>
-        <td>16</td>
-        <td>{{userid_16}}</td>
-        <td>{{score_16}}</td>
-      </tr>
-      <tr>
-        <td>17</td>
-        <td>{{userid_17}}</td>
-        <td>{{score_17}}</td>
-      </tr>
-      <tr>
-        <td>18</td>
-        <td>{{userid_18}}</td>
-        <td>{{score_18}}</td>
-      </tr>
-      <tr>
-        <td>19</td>
-        <td>{{userid_19}}</td>
-        <td>{{score_19}}</td>
-      </tr>
-      <tr>
-        <td>20</td>
-        <td>{{userid_20}}</td>
-        <td>{{score_20}}</td>
-      </tr>
+     {{/each}}
     </tbody>
   </table>
 </div>

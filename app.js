@@ -38,7 +38,8 @@ hbs.handlebars.registerHelper({
   },
   or() {
       return Array.prototype.slice.call(arguments, 0, -1).some(Boolean);
-  }
+  },
+  inc: (v) => v+1
 });
 
 app.use(flash());

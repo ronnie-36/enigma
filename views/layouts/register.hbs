@@ -31,7 +31,8 @@
             var username=document.forms["usernameform"]["username"].value;
             if(format.test(username) || username.toLowerCase().includes("admin")){
                 Swal.fire({
-                    text:"Username Not Allowed!",
+                    title: "Username Not Allowed!",
+                    text: "Username should not include special characters or resemble with ADMIN",
                     button: "Okay",
                     confirmButtonColor: "#4F4F4F"
                 });

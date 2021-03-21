@@ -110,8 +110,10 @@
     width: 100%;
 }
 
-@media only screen and (min-width: 700px) {
-
+@media only screen and (min-width: 720px) {
+    .dummy-img {
+        height: 450px;
+    }
     body {
         background-color: #000000;
         position: fixed;
@@ -119,8 +121,9 @@
 
     .keyboard {
         position: relative;
-        width: 80%;
+        width: 90%;
         height: 70%;
+        zoom: 0.9;
         background-color: #111;
         margin: 0px auto;
         border-radius: 9px;
@@ -131,12 +134,12 @@
 
     .screen {
         position: relative;
-        width: 60vh;
-        height: 10vh;
+        width: 70%;
+        height: 20%;
         border-radius: 7px;
         border: 4px solid #666;
         text-align: center;
-        font-size: 50px;
+        font-size: 55px;
         margin: 0 auto;
         margin-bottom: 2.5%;
     }
@@ -276,199 +279,16 @@
 
 }
 
-@media only screen and (min-width: 472px) and (max-width: 700px) {
+@media only screen and (min-width: 472px) and (max-width: 720px) {
 
+    .dummy-img {
+        height: 300px;
+    }
     .keyboard {
         position: relative;
         width: 80%;
-        height: 70%;
-        background-color: #111;
-        margin: 0px auto;
-        border-radius: 9px;
-        padding: 3%;
-        color: #eee;
-        max-width: 850px;
-    }
-
-    .screen {
-        position: relative;
-        width: 60%;
-        height: 20%;
-        border-radius: 7px;
-        border: 4px solid #666;
-        text-align: center;
-        font-size: 50px;
-        margin: 0 auto;
-        margin-bottom: 2.5%;
-    }
-
-
-
-    .key {
-        position: relative;
-        width: 15%;
-        height: 15%;
-        display: block;
-        background-color: #333;
-        text-align: left;
-        padding-left: 1vh;
-        line-height: 4vh;
-        border-radius: 0.5%;
-        float: left;
-        margin-left: 0.5vh;
-        margin-bottom: 0.5vh;
-        cursor: pointer;
-
-    }
-
-    .kee {
-        position: relative;
-        width: 15%;
-        height: 15%;
-        display: block;
-        background-color: #333;
-        text-align: left;
-        padding-left: 1vh;
-        line-height: 4vh;
-        border-radius: 0.5%;
-        float: left;
-        margin-left: 0.5vh;
-        margin-bottom: 0.5vh;
-        cursor: pointer;
-    }
-
-    /*.section-a{width: 80vh; height: 40vh; margin: 0 auto;}*/
-    /*@media only screen and (min-width: 320px) and (max-width: 700px){
-
-}*/
-
-
-    .function {
-        position: relative;
-        font-size: 0;
-        width: 0;
-        height: 0;
-        margin: 0;
-    }
-
-    .space1 {
-        position: relative;
-        margin: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .space2 {
-        position: relative;
-        margin: 0;
-        width: 0;
-        height: 0;
-    }
-
-    .dual {
-        position: relative;
-        font-size: 0;
-        line-height: 0;
-        width: 0;
-        height: 0;
-        margin: 0;
-    }
-
-    .backspace {
-        position: relative;
-        width: 0;
-        height: 0;
-        font-size: 0;
-    }
-
-    .tab {
-        position: relative;
-        width: 0;
-        line-height: 0;
-        height: 0;
-        font-size: 0;
-    }
-
-    .letter {
-        position: relative;
-        width: 8%;
-    }
-
-    .slash {
-        position: relative;
-        width: 0%;
-        height: 0;
-    }
-
-    .caps {
-        position: relative;
-        width: 0;
-        font-size: 0;
-        line-height: 0;
-        height: 0;
-    }
-
-    .enter {
-        position: relative;
-        width: 0;
-        height: 0;
-        text-align: center;
-        padding: 0;
-        opacity: 0;
-    }
-
-    .shift.left {
-        position: relative;
-        width: 16%;
-        font-size: 0;
-    }
-
-    .shift.right {
-        position: relative;
-        width: 16%;
-        font-size: 0;
-    }
-
-    .ctrl {
-        position: relative;
-        width: 0;
-        height: 0;
-        margin: 0;
-    }
-
-    .space {
-        position: relative;
-        width: 80%;
-        height: 45%;
-        margin-left: 9%
-    }
-
-    #A {
-        margin-left: 8%;
-    }
-
-    .lowerkeys {
-        width: 0;
-        height: 0;
-        margin: 0;
-    }
-
-    /*#L{
-margin-right: 10%;
-}*/
-    .kee:hover {
-        box-shadow: 0px 0px 10px #14B524;
-        z-index: 1000;
-    }
-}
-
-
-@media only screen and (max-width: 472px) {
-
-    .keyboard {
-        position: relative;
-        width: 80%;
-        height: 70%;
+        height: 60%;
+        zoom: 0.7;
         background-color: #111;
         margin: 0px auto;
         border-radius: 9px;
@@ -480,11 +300,11 @@ margin-right: 10%;
     .screen {
         position: relative;
         width: 70%;
-        height: 20%;
+        height: 25%;
         border-radius: 7px;
         border: 4px solid #666;
         text-align: center;
-        font-size: 50px;
+        font-size: 45px;
         margin: 0 auto;
         margin-bottom: 2.5%;
     }
@@ -493,8 +313,8 @@ margin-right: 10%;
 
     .key {
         position: relative;
-        width: 13%;
-        height: 12%;
+        width: 10%;
+        height: 11.2%;
         display: block;
         background-color: #333;
         text-align: left;
@@ -510,8 +330,8 @@ margin-right: 10%;
 
     .kee {
         position: relative;
-        width: 13%;
-        height: 12%;
+        width: 10%;
+        height: 11.2%;
         display: block;
         background-color: #333;
         text-align: left;
@@ -525,135 +345,424 @@ margin-right: 10%;
     }
 
     /*.section-a{width: 80vh; height: 40vh; margin: 0 auto;}*/
-    /*@media only screen and (min-width: 320px) and (max-width: 700px){
 
-}*/
 
 
     .function {
         position: relative;
-        font-size: 0;
-        width: 0;
-        height: 0;
-        margin: 0;
+        font-size: 2%;
+        width: 6%;
+        height: 11.2%;
+        margin-bottom: 4%;
     }
 
     .space1 {
         position: relative;
-        margin: 0;
-        width: 0;
-        height: 0;
-        padding: 0;
+        margin-right: 4.2% !important;
     }
 
     .space2 {
         position: relative;
-        margin: 0;
-        width: 0;
-        height: 0;
-        padding: 0;
+        margin-right: 3.2% !important;
     }
 
     .dual {
         position: relative;
-        font-size: 0;
-        line-height: 0;
-        width: 0;
-        height: 0;
-        margin: 0;
+        font-size: 1%;
+        line-height: 5%;
+        width: 5.75%;
+        height: 11.2%;
+        margin-bottom: 0.5vh;
     }
 
     .backspace {
         position: relative;
-        width: 0;
-        height: 0;
-        font-size: 0;
+        width: 13.25%;
+        height: 11.2%;
+        font-size: 2%;
     }
 
     .tab {
         position: relative;
-        width: 0;
-        line-height: 0;
-        height: 0;
-        font-size: 0;
-        margin: 0;
-        padding: 0;
+        width: 7%;
+        line-height: 11.2%;
+        font-size: 2%;
     }
 
     .letter {
         position: relative;
-        width: 8.2%;
+        width: 5.75%;
     }
 
     .slash {
         position: relative;
-        width: 0%;
-        height: 0;
-        margin: 0;
-        padding: 0;
+        width: 12%;
     }
 
     .caps {
         position: relative;
-        width: 0;
-        font-size: 0;
-        line-height: 0;
-        height: 0;
-        margin: 0;
-        padding: 0;
+        width: 8.5%;
+        font-size: 2%;
+        line-height: 5%;
     }
 
     .enter {
         position: relative;
-        width: 0;
-        height: 0;
+        width: 16.8%;
         text-align: center;
-        padding: 0;
-        opacity: 0;
-        margin: 0;
+        padding-left: 0;
     }
 
     .shift.left {
         position: relative;
-        width: 14%;
-        font-size: 0;
+        width: 15.83%;
+        font-size: 2%;
     }
 
     .shift.right {
         position: relative;
-        width: 14%;
-        font-size: 0;
+        width: 15.83%;
+        line-height: 40px;
+        font-size: 13px;
     }
 
     .ctrl {
         position: relative;
-        width: 0;
-        height: 0;
-        margin: 0;
+        width: 6%;
     }
 
     .space {
         position: relative;
-        width: 80%;
-        height: 45%;
-        margin-left: 9%
-    }
-
-    #A {
-        margin-left: 8%;
+        width: 40.55%;
     }
 
 
+    .kee:hover {
+        box-shadow: 0px 0px 10px #14B524;
+        z-index: 1000;
+    }
+}
 
-    .lowerkeys {
-        width: 0;
-        height: 0;
-        margin: 0;
+
+@media only screen and (max-width: 472px) {
+    .dummy-img {
+        height: 250px;
+    }
+    .keyboard {
+        position: relative;
+        width: 90%;
+        height: 60%;
+        zoom: 0.6;
+        background-color: #111;
+        margin: 0px auto;
+        border-radius: 9px;
+        padding: 3%;
+        color: #eee;
+        max-width: 850px;
     }
 
-    /*#L{
-margin-right: 10%;
-}*/
+    .screen {
+        position: relative;
+        width: 70%;
+        height: 25%;
+        border-radius: 7px;
+        border: 4px solid #666;
+        text-align: center;
+        font-size: 40px;
+        margin: 0 auto;
+        margin-bottom: 2.5%;
+    }
+
+
+
+    .key {
+        position: relative;
+        width: 10%;
+        height: 11.2%;
+        display: block;
+        background-color: #333;
+        text-align: left;
+        padding-left: 1vh;
+        line-height: 4vh;
+        border-radius: 0.5%;
+        float: left;
+        margin-left: 0.5vh;
+        margin-bottom: 0.5vh;
+        cursor: pointer;
+
+    }
+
+    .kee {
+        position: relative;
+        width: 10%;
+        height: 11.2%;
+        display: block;
+        background-color: #333;
+        text-align: left;
+        padding-left: 1vh;
+        line-height: 4vh;
+        border-radius: 0.5%;
+        float: left;
+        margin-left: 0.5vh;
+        margin-bottom: 0.5vh;
+        cursor: pointer;
+    }
+
+    /*.section-a{width: 80vh; height: 40vh; margin: 0 auto;}*/
+
+
+
+    .function {
+        position: relative;
+        font-size: 2%;
+        width: 6%;
+        height: 11.2%;
+        margin-bottom: 4%;
+    }
+
+    .space1 {
+        position: relative;
+        margin-right: 4.2% !important;
+    }
+
+    .space2 {
+        position: relative;
+        margin-right: 3.2% !important;
+    }
+
+    .dual {
+        position: relative;
+        font-size: 1%;
+        line-height: 5%;
+        width: 5.75%;
+        height: 11.2%;
+        margin-bottom: 0.5vh;
+    }
+
+    .backspace {
+        position: relative;
+        width: 13.25%;
+        height: 11.2%;
+        font-size: 2%;
+    }
+
+    .tab {
+        position: relative;
+        width: 7%;
+        line-height: 11.2%;
+        font-size: 2%;
+    }
+
+    .letter {
+        position: relative;
+        width: 5.75%;
+    }
+
+    .slash {
+        position: relative;
+        width: 12%;
+    }
+
+    .caps {
+        position: relative;
+        width: 8.5%;
+        font-size: 2%;
+        line-height: 5%;
+    }
+
+    .enter {
+        position: relative;
+        width: 16.8%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .shift.left {
+        position: relative;
+        width: 15.83%;
+        font-size: 2%;
+    }
+
+    .shift.right {
+        position: relative;
+        width: 15.83%;
+        line-height: 40px;
+        font-size: 13px;
+    }
+
+    .ctrl {
+        position: relative;
+        width: 6%;
+    }
+
+    .space {
+        position: relative;
+        width: 40.55%;
+    }
+
+
+    .kee:hover {
+        box-shadow: 0px 0px 10px #14B524;
+        z-index: 1000;
+    }
+}
+@media only screen and (max-width: 320px) {
+    .dummy-img {
+        height: 200px;
+    }
+    .keyboard {
+        position: relative;
+        width: 90%;
+        height: 60%;
+        zoom: 0.5;
+        background-color: #111;
+        margin: 0px auto;
+        border-radius: 9px;
+        padding: 3%;
+        color: #eee;
+        max-width: 850px;
+    }
+
+    .screen {
+        position: relative;
+        width: 70%;
+        height: 25%;
+        border-radius: 7px;
+        border: 4px solid #666;
+        text-align: center;
+        font-size: 30px;
+        margin: 0 auto;
+        margin-bottom: 2.5%;
+    }
+
+
+
+    .key {
+        position: relative;
+        width: 10%;
+        height: 11.2%;
+        display: block;
+        background-color: #333;
+        text-align: left;
+        padding-left: 1vh;
+        line-height: 4vh;
+        border-radius: 0.5%;
+        float: left;
+        margin-left: 0.5vh;
+        margin-bottom: 0.5vh;
+        cursor: pointer;
+
+    }
+
+    .kee {
+        position: relative;
+        width: 10%;
+        height: 11.2%;
+        display: block;
+        background-color: #333;
+        text-align: left;
+        padding-left: 1vh;
+        line-height: 4vh;
+        border-radius: 0.5%;
+        float: left;
+        margin-left: 0.5vh;
+        margin-bottom: 0.5vh;
+        cursor: pointer;
+    }
+
+    /*.section-a{width: 80vh; height: 40vh; margin: 0 auto;}*/
+
+
+
+    .function {
+        position: relative;
+        font-size: 2%;
+        width: 6%;
+        height: 11.2%;
+        margin-bottom: 4%;
+    }
+
+    .space1 {
+        position: relative;
+        margin-right: 4.2% !important;
+    }
+
+    .space2 {
+        position: relative;
+        margin-right: 3.2% !important;
+    }
+
+    .dual {
+        position: relative;
+        font-size: 1%;
+        line-height: 5%;
+        width: 5.75%;
+        height: 11.2%;
+        margin-bottom: 0.5vh;
+    }
+
+    .backspace {
+        position: relative;
+        width: 13.25%;
+        height: 11.2%;
+        font-size: 2%;
+    }
+
+    .tab {
+        position: relative;
+        width: 7%;
+        line-height: 11.2%;
+        font-size: 2%;
+    }
+
+    .letter {
+        position: relative;
+        width: 5.75%;
+    }
+
+    .slash {
+        position: relative;
+        width: 12%;
+    }
+
+    .caps {
+        position: relative;
+        width: 8.5%;
+        font-size: 2%;
+        line-height: 5%;
+    }
+
+    .enter {
+        position: relative;
+        width: 16.8%;
+        text-align: center;
+        padding-left: 0;
+    }
+
+    .shift.left {
+        position: relative;
+        width: 15.83%;
+        font-size: 2%;
+    }
+
+    .shift.right {
+        position: relative;
+        width: 15.83%;
+        line-height: 40px;
+        font-size: 13px;
+    }
+
+    .ctrl {
+        position: relative;
+        width: 6%;
+    }
+
+    .space {
+        position: relative;
+        width: 40.55%;
+    }
+
+
     .kee:hover {
         box-shadow: 0px 0px 10px #14B524;
         z-index: 1000;

@@ -13,14 +13,15 @@
                             <a class="nav-item nav-link active" id="nav-home-tab" data-toggle="tab"
                                 href="#nav-{{ q1.q_no }}" role="tab" aria-controls="nav-home" aria-selected="true">{{
                                 q1.q_no }} {{#if done.q1}}<i class="fa fa-check" style="color: green;"></i>{{/if}}</a>
-                            <a class="nav-item nav-link {{#if last}} disabled {{/if}} {{#if done.q2}} disabled {{/if}}" id="nav-profile-tab"
-                                data-toggle="tab" href="#nav-{{ q2.q_no }}" role="tab" aria-controls="nav-profile"
-                                aria-selected="false">{{ q2.q_no }} {{#if done.q2}}<i class="fa fa-check"
-                                    style="color: green;"></i>{{/if}}</a>
-                            {{else}}
-                            <a class="nav-item nav-link {{#if done.q1}} disabled {{/if}}" id="nav-home-tab" data-toggle="tab" href="#nav-{{ q1.q_no }}"
-                                role="tab" aria-controls="nav-home" aria-selected="true">{{ q1.q_no }} {{#if done.q1}}<i
+                            <a class="nav-item nav-link {{#if last}} disabled {{/if}} {{#if done.q2}} disabled {{/if}}"
+                                id="nav-profile-tab" data-toggle="tab" href="#nav-{{ q2.q_no }}" role="tab"
+                                aria-controls="nav-profile" aria-selected="false">{{ q2.q_no }} {{#if done.q2}}<i
                                     class="fa fa-check" style="color: green;"></i>{{/if}}</a>
+                            {{else}}
+                            <a class="nav-item nav-link {{#if done.q1}} disabled {{/if}}" id="nav-home-tab"
+                                data-toggle="tab" href="#nav-{{ q1.q_no }}" role="tab" aria-controls="nav-home"
+                                aria-selected="true">{{ q1.q_no }} {{#if done.q1}}<i class="fa fa-check"
+                                    style="color: green;"></i>{{/if}}</a>
                             <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab"
                                 href="#nav-{{ q2.q_no }}" role="tab" aria-controls="nav-profile"
                                 aria-selected="false">{{ q2.q_no }} {{#if done.q2}}<i class="fa fa-check"
@@ -163,5 +164,10 @@
             </div>
         </div>
     </section>
+    <div id="overlay">
+        <div class="cv-spinner">
+            <span class="spinner"></span>
+        </div>
+    </div>
 
 </body>

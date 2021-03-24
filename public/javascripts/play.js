@@ -65,13 +65,13 @@ function handleTickInit(tick) {
 	// '2018-01-15T10:00:00+01:00'  to count down to the 15th of January 2018 at 10 o'clock in timezone GMT+1
 
 	// create the countdown counter
-	var counter = Tick.count.down('2021-03-23T00:30:00+05:30', {
+	var counter = Tick.count.down('2021-03-26T00:30:00+05:30', {
 		format: ['h', 'm', 's']
 	});
 
 	counter.onupdate = function (value) {
 		tick.value = value;
-		if (Tick.helper.duration(Tick.helper.date(), Tick.helper.date('2021-03-23T00:30:00+05:30'), ['s'])[0] == 10) {
+		if (Tick.helper.duration(Tick.helper.date(), Tick.helper.date('2021-03-26T00:30:00+05:30'), ['s'])[0] == 10) {
 			setInterval(function () {
 				$("#timebox").toggleClass("backgroundRed");
 			}, 500)
@@ -100,25 +100,35 @@ $(document).ready(function () {
 	$('.submit_custom').on("click", function (e) {
 		e.preventDefault();
 		var form = $(this).closest('form');
-		if(form.serializeArray()[1].value==""){
+		if (form.serializeArray()[1].value == "") {
 			Toast.fire({
 				icon: 'warning',
 				title: 'Empty answer field.'
 			});
-		}
-		else{
-			$.post("/play", form.serializeArray(), function (response) {
-				if (!response.login) {
-					location.reload();
-				} else {
-					if (response.fun == 0) {
-						fail();
-					} else if (response.fun == 2) {
-						close();
-					} else if (response.fun == 1) {
-						success();
-						setInterval('location.reload()', 1000);
+		} else {
+			$.ajax({
+				url: '/play',
+				type: 'post',
+				data: form.serializeArray(),
+				beforeSend: function () {
+					$("#overlay").show();
+				},
+				success: function (response) {
+					if (!response.login) {
+						location.reload();
+					} else {
+						if (response.fun == 0) {
+							fail();
+						} else if (response.fun == 2) {
+							close();
+						} else if (response.fun == 1) {
+							success();
+							setInterval('location.reload()', 1000);
+						}
 					}
+				},
+				complete: function (data) {
+					$("#overlay").hide();
 				}
 			});
 		}

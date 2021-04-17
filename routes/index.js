@@ -1,42 +1,11 @@
 const express = require('express');
 const router = express.Router();
-const questions = require('./questions');
 const MongoClient = require('mongodb').MongoClient;
 const store = require('store');
 const User = require('../models/userModel');
-const Answer = require('../models/answerModel');
-var answer = [
-  'on',
-  '14159265',
-  'love',
-  'easy',
-  'terminate',
-  'halloween',
-  'radio',
-  'finale',
-  'hemingway',
-  'greenharmony',
-  'crypted',
-  'stevebuscemi',
-  'depression',
-  'enigma'
-];
-var close_ans = [
-  [],
-  ['14','141'],
-  [],
-  [],
-  [],
-  [],
-  [],
-  [],
-  ['mojito'],
-  ['monet','thewaterlilypond'],
-  [],
-  [],
-  ['ungdomshuset'],
-  []
-];
+const QnA = require('../models/qnaModel');
+
+const noOfQuestions = 14;
 
 async function update_score(req, email, score) {
   const user = await User.findOne({ email });
@@ -182,7 +151,7 @@ router.get('/play', async function (req, res, next) {
   if(req.isAuthenticated()){
     //to be used for countdown and finish page
     var curDateTime = new Date();
-    var end=new Date("2021-03-26T00:29:57+05:30");
+    var end=new Date("2021-04-18T00:29:57+05:30");
     var start=new Date('2021-03-20T19:44:57+05:30');
     //console.log(curDateTime.getTime() < start.getTime());
     if(curDateTime.getTime() > end.getTime()){
@@ -193,16 +162,16 @@ router.get('/play', async function (req, res, next) {
     }
     console.log('CURRENT LEVEL', req.session.level);
     // for completion
-    if(Math.min(...req.session.level)>14){
+    if(Math.min(...req.session.level)>noOfQuestions){
       res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
     }
     let last = false;
     if(req.session.level.length == 2){
       const q1_index=req.session.level[0];
       const q2_index=req.session.level[1];
-      let q1 = questions[q1_index - 1];
-      let q2 = questions[q2_index - 1];
-      if(q2_index>14){
+      let q1 = await QnA.findOne({ q_no : q1_index }).lean();
+      let q2 = await QnA.findOne({ q_no : q2_index }).lean();
+      if(q2_index>noOfQuestions){
         last=true;
       }
       var done={q1: false, q2:false};
@@ -226,9 +195,9 @@ router.get('/play', async function (req, res, next) {
         q1_index=cur_ques-1;
         q2_index=cur_ques;
       }
-      let q1 = questions[q1_index - 1];
-      let q2 = questions[q2_index - 1];  
-      if(q2_index>14){
+      let q1 = await QnA.findOne({ q_no : q1_index }).lean();
+      let q2 = await QnA.findOne({ q_no : q2_index }).lean(); 
+      if(q2_index>noOfQuestions){
         last=true;
       }
       res.render('index', {q1, q2, active, done, last, layout:'play_layout'});
@@ -248,7 +217,8 @@ router.post('/play', async function (req, res) {
     level= req.session.level;
     const prevlevel=[...level];
     let last = false;
-    if (ans == answer[qno - 1] && level.includes(Number(qno)) ){
+    let ques = await QnA.findOne({ q_no : qno });
+    if (ans == ques.answer && level.includes(Number(qno)) ){
       var fun=1;
       req.session.score++;
       if(level.length == 2){
@@ -268,12 +238,13 @@ router.post('/play', async function (req, res) {
       res.send({fun, login});
     } else {
       var fun=0;
-      if(close_ans[qno-1].includes(ans)){
+      let ques = await QnA.findOne({ q_no : qno });
+      if(ques.close_ans.includes(ans)){
         fun=2;
       }
       const q1_index=Math.min(req.session.level[0],req.session.level[1]);
       const q2_index=Math.max(req.session.level[0],req.session.level[1]);
-      if(q2_index>14){
+      if(q2_index>noOfQuestions){
         last=true;
       }
       res.send({fun, last, login});
@@ -299,6 +270,20 @@ router.post('/play', async function (req, res) {
 //         }
 //         res.send(emails);
 //       });
+// });
+
+// // route to load questions in database
+// // requires questions.js file,answer[],close_ans[]
+// router.get('/loadquestions', async function (req, res, next) {
+//   for (i = 0; i < noOfQuestions; i++) {
+//     const newQuestion={
+//       ...questions[i],
+//       answer: answer[i],
+//       close_ans: close_ans[i]
+//     }
+//     await QnA.create(newQuestion);
+//   }
+//   res.send("loaded");
 // });
 
 //leaderboard

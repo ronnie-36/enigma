@@ -7,7 +7,12 @@
 .content.show {
     background-image: url(/images/Background_Static.jpg);
 }
-
+.social{
+    color: white;
+}
+a.social:hover{
+    color: yellowgreen;
+}
 .responsive-tabs dt {
     padding: 0.5em;
     border-top: 1px solid #ccc;

@@ -5,7 +5,6 @@ const store = require('store');
 const User = require('../models/userModel');
 const QnA = require('../models/qnaModel');
 
-const noOfQuestions = 14;
 
 async function update_score(req, email, score) {
   const user = await User.findOne({ email });
@@ -87,43 +86,53 @@ router.get('/failure', function (req, res, next) {
 });
 
 router.get('/profile', async function (req, res, next) {
-  if(!req.isAuthenticated()){
-    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+  try{
+    if(!req.isAuthenticated()){
+      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
+    const email = req.session.email;
+    const user = await User.findOne({ email });
+    var name;
+    if(user.last_name == undefined){
+      name = user.first_name ;
+    }
+    else{
+    name = user.first_name +' '+ user.last_name ;
+    }
+    const uname = user.username;
+    const rank = await get_rank(req.session.email);
+    res.render('profile',{  
+        layout: 'layout_empty',
+        Name: name,
+        Rank: rank,
+        User_Id: uname,
+        Email: req.session.email,
+        Score: req.session.score
+      });
   }
-  const email = req.session.email;
-  const user = await User.findOne({ email });
-  var name;
-  if(user.last_name == undefined){
-    name = user.first_name ;
+  catch(e){
+    next(e);
   }
-  else{
-   name = user.first_name +' '+ user.last_name ;
-  }
-  const uname = user.username;
-  const rank = await get_rank(req.session.email);
-  res.render('profile',{  
-      layout: 'layout_empty',
-      Name: name,
-      Rank: rank,
-      User_Id: uname,
-      Email: req.session.email,
-      Score: req.session.score
-    });
 });
 
 // register new user
 router.post('/getusername', async function (req, res, next) {
-  const { username } = req.body;
-  const userExists = await User.findOne({ username });
-  store.set('type','register');
-  if (userExists) {
-    res.status(400);
-    res.render('', { func: 'exists()', layout: 'register' });
-  }
-  else{
-    store.set('id',username);
-    res.redirect('/auth/google');
-  }
+  try{
+    const { username } = req.body;
+    const userExists = await User.findOne({ username });
+    store.set('type','register');
+    if (userExists) {
+      res.status(400);
+      res.render('', { func: 'exists()', layout: 'register' });
+    }
+    else{
+      store.set('id',username);
+      res.redirect('/auth/google');
+    }
+}
+catch(e){
+  next(e);
+}
 
 });
 
@@ -148,67 +157,74 @@ router.post('/getusername', async function (req, res, next) {
 
 
 router.get('/play', async function (req, res, next) {
-  if(req.isAuthenticated()){
-    //to be used for countdown and finish page
-    var curDateTime = new Date();
-    var end=new Date("2021-04-18T18:59:59+05:30");
-    var start=new Date('2021-04-18T13:59:58+05:30');
-    //console.log(curDateTime.getTime() < start.getTime());
-    if(curDateTime.getTime() > end.getTime()){
-      res.render('end', {layout:'play_layout'});
-    }
-    else if(curDateTime.getTime() < start.getTime()){
-      res.render('', {layout:'countdown'});
-    }
-    console.log('CURRENT LEVEL', req.session.level);
-    // for completion
-    if(Math.min(...req.session.level)>noOfQuestions){
-      res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
-    }
-    let last = false;
-    if(req.session.level.length == 2){
-      const q1_index=req.session.level[0];
-      const q2_index=req.session.level[1];
-      let q1 = await QnA.findOne({ q_no : q1_index }).lean();
-      let q2 = await QnA.findOne({ q_no : q2_index }).lean();
-      if(q2_index>noOfQuestions){
-        last=true;
+  try{
+    if(req.isAuthenticated()){
+      //to be used for countdown and finish page
+      var curDateTime = new Date();
+      var end=new Date("2021-04-23T18:59:59+05:30");
+      var start=new Date('2021-04-18T13:59:58+05:30');
+      //console.log(curDateTime.getTime() < start.getTime());
+      if(curDateTime.getTime() > end.getTime()){
+        res.render('end', {layout:'play_layout'});
       }
-      var done={q1: false, q2:false};
-      res.render('index',{q1, q2, active:{q1: true}, last, done, layout:'play_layout'});
+      else if(curDateTime.getTime() < start.getTime()){
+        res.render('', {layout:'countdown'});
+      }
+      const noOfQuestions = await QnA.countDocuments({});
+      console.log('CURRENT LEVEL', req.session.level);
+      // for completion
+      if(Math.min(...req.session.level)>noOfQuestions){
+        res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
+      }
+      let last = false;
+      if(req.session.level.length == 2){
+        const q1_index=req.session.level[0];
+        const q2_index=req.session.level[1];
+        let q1 = await QnA.findOne({ q_no : q1_index }).lean();
+        let q2 = await QnA.findOne({ q_no : q2_index }).lean();
+        if(q2_index>noOfQuestions){
+          last=true;
+        }
+        var done={q1: false, q2:false};
+        res.render('index',{q1, q2, active:{q1: true}, last, done, layout:'play_layout'});
+      }
+      else if(req.session.level.length == 1){
+        const cur_ques = req.session.level[0];
+        var done={q1: false, q2:false};
+        var active={q1: true};
+        var q1_index;
+        var q2_index;
+        if(cur_ques&1){
+          done.q2=true;
+          active.q1=true;
+          q1_index=cur_ques;
+          q2_index=cur_ques+1;
+        }
+        else{
+          done.q1=true;
+          active.q1=false; 
+          q1_index=cur_ques-1;
+          q2_index=cur_ques;
+        }
+        let q1 = await QnA.findOne({ q_no : q1_index }).lean();
+        let q2 = await QnA.findOne({ q_no : q2_index }).lean(); 
+        if(q2_index>noOfQuestions){
+          last=true;
+        }
+        res.render('index', {q1, q2, active, done, last, layout:'play_layout'});
+      }
     }
-    else if(req.session.level.length == 1){
-      const cur_ques = req.session.level[0];
-      var done={q1: false, q2:false};
-      var active={q1: true};
-      var q1_index;
-      var q2_index;
-      if(cur_ques&1){
-        done.q2=true;
-        active.q1=true;
-        q1_index=cur_ques;
-        q2_index=cur_ques+1;
-      }
-      else{
-        done.q1=true;
-        active.q1=false; 
-        q1_index=cur_ques-1;
-        q2_index=cur_ques;
-      }
-      let q1 = await QnA.findOne({ q_no : q1_index }).lean();
-      let q2 = await QnA.findOne({ q_no : q2_index }).lean(); 
-      if(q2_index>noOfQuestions){
-        last=true;
-      }
-      res.render('index', {q1, q2, active, done, last, layout:'play_layout'});
+    else{
+    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
-  }
-  else{
-  res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-  }
+}
+catch(e){
+  next(e);
+}
 });
 
-router.post('/play', async function (req, res) {
+router.post('/play', async function (req, res, next) {
+try{
   if(req.isAuthenticated()){
     let login=true;
     var ans = req.body.answer;
@@ -216,6 +232,7 @@ router.post('/play', async function (req, res) {
     console.log(ans.toLowerCase().replace(/\s/g, ''));
     level= req.session.level;
     const prevlevel=[...level];
+    const noOfQuestions = await QnA.countDocuments({});
     let last = false;
     let ques = await QnA.findOne({ q_no : qno });
     if (ans == ques.answer && level.includes(Number(qno)) ){
@@ -255,6 +272,10 @@ router.post('/play', async function (req, res) {
     let login=false;
     res.send({login});
   }
+}
+catch(e){
+  next(e);
+}
 });
 
 // //route to get email of users
@@ -288,23 +309,28 @@ router.post('/play', async function (req, res) {
 
 //leaderboard
 router.get('/leaderboard', async function (req, res, next) {
-  if(!req.isAuthenticated()){
-    res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-  }
-  const email = req.session.email;
-  const user = await User.findOne({ email });
-  req.session.level = user.level;
-  const uname = user.username;
-  const rank = await get_rank(req.session.email);
-  console.log('rank is :', rank);
-  console.log('THE LEADERBOARD DATA:', leaderboard_data);
-  res.render('leaderboard', {
-    layout: 'layout_empty',
-    Rank: rank,
-    User_Id: uname,
-    My_score: req.session.score,
-    lb_data: leaderboard_data
-  });
+  try{
+    if(!req.isAuthenticated()){
+      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
+    const email = req.session.email;
+    const user = await User.findOne({ email });
+    req.session.level = user.level;
+    const uname = user.username;
+    const rank = await get_rank(req.session.email);
+    console.log('rank is :', rank);
+    console.log('THE LEADERBOARD DATA:', leaderboard_data);
+    res.render('leaderboard', {
+      layout: 'layout_empty',
+      Rank: rank,
+      User_Id: uname,
+      My_score: req.session.score,
+      lb_data: leaderboard_data
+    });
+}
+catch(e){
+  next(e);
+}
 });
 
 module.exports = router;

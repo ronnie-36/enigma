@@ -42,6 +42,7 @@ hbs.handlebars.registerHelper({
   inc: (v) => v+1
 });
 
+app.disable('x-powered-by');
 app.use(flash());
 app.use(logger('dev'));
 app.use(express.json());
@@ -52,6 +53,7 @@ app.use(
     secret: process.env.EXPRESS_SECRET,
     resave: false,
     saveUninitialized: true,
+    name: "SessionCookie"
   })
 );
 

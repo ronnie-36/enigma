@@ -296,6 +296,7 @@ catch(e){
 // // route to load questions in database
 // // requires questions.js file,answer[],close_ans[]
 // router.get('/loadquestions', async function (req, res, next) {
+//   const noOfQuestions = await QnA.countDocuments({});
 //   for (i = 0; i < noOfQuestions; i++) {
 //     const newQuestion={
 //       ...questions[i],

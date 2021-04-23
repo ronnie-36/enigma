@@ -1,7 +1,6 @@
 const express = require('express');
 const router = express.Router();
 const MongoClient = require('mongodb').MongoClient;
-const store = require('store');
 const User = require('../models/userModel');
 const QnA = require('../models/qnaModel');
 
@@ -54,7 +53,6 @@ router.get('/404redirect', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-  store.set('type','login');
   res.redirect('/auth/google');
 });
 
@@ -64,12 +62,12 @@ router.get('/signup', function (req, res, next) {
 
 router.get('/home', function (req, res, next) {
   if(req.isAuthenticated()){
-    if(store.get('type')=='login'){
-      store.clearAll();
+    if(req.session.type=='login'){
+      req.session.type='';
       res.render('home', { func: 'login_successful()', layout: 'layout_static' });
     }
-    else if(store.get('type')=='register'){
-      store.clearAll();
+    else if(req.session.type=='register'){
+      req.session.type='';
       res.render('home', { func: 'register_successful()', layout: 'layout_static' });
     }
     else{
@@ -119,15 +117,24 @@ router.get('/profile', async function (req, res, next) {
 router.post('/getusername', async function (req, res, next) {
   try{
     const { username } = req.body;
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if(format.test(username) || username.toLowerCase().includes("admin") || username==""){
+      req.logout();
+      res.render('', { func: 'invalid_username()', layout: 'landing' });
+    }
     const userExists = await User.findOne({ username });
-    store.set('type','register');
     if (userExists) {
       res.status(400);
       res.render('', { func: 'exists()', layout: 'register' });
     }
     else{
-      store.set('id',username);
-      res.redirect('/auth/google');
+     await User.updateOne({"email": req.user.email},{$set: { "username" : username}});
+     req.session.type = 'register';
+     req.session.email = req.user.email;
+     req.session.level = req.user.level;
+     req.session.score = req.user.score;
+     req.session.save();
+     res.redirect('/home');
     }
 }
 catch(e){
@@ -161,8 +168,8 @@ router.get('/play', async function (req, res, next) {
     if(req.isAuthenticated()){
       //to be used for countdown and finish page
       var curDateTime = new Date();
-      var end=new Date("2021-04-23T18:59:59+05:30");
-      var start=new Date('2021-04-18T13:59:58+05:30');
+      var end=new Date("2021-04-25T23:59:59+05:30");
+      var start=new Date('2021-04-24T00:34:59+05:30');
       //console.log(curDateTime.getTime() < start.getTime());
       if(curDateTime.getTime() > end.getTime()){
         res.render('end', {layout:'play_layout'});
@@ -229,6 +236,12 @@ try{
     let login=true;
     var ans = req.body.answer;
     var qno = req.body.qno;
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if(format.test(ans) || format.test(qno)){
+      var fun=0;
+      res.send({fun, login});
+      return;
+    }
     console.log(ans.toLowerCase().replace(/\s/g, ''));
     level= req.session.level;
     const prevlevel=[...level];

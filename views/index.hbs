@@ -59,8 +59,14 @@
                                             Your browser does not support the audio element.
                                         </audio>
                                         {{else}}
-                                        <img src="{{ q1.res1_link }}" width="{{q1.res1_width}}"
-                                            height="{{q1.res1_height}}">
+                                            {{#if (eq q1.res1_split 'true')}}
+                                                <div style="width: 200px; height: 300px; overflow: hidden;">
+                                                    <img src="{{ q1.res1_link }}" width="400px" height="300px">
+                                                </div>
+                                            {{else}}
+                                                <img src="{{ q1.res1_link }}" width="{{q1.res1_width}}"
+                                                    height="{{q1.res1_height}}">
+                                            {{/if}}
                                         {{/if}}
                                     </div>
                                     {{#if (eq q1.res2_present 'true')}}

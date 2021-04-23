@@ -1,6 +1,6 @@
 <script>
     function forum() {
-        window.open("https://discord.gg/qjDg6DJr");
+        window.open("https://discord.gg/Q5fNttK9gT");
     }
     const Toast = Swal.mixin({
         toast: true,
@@ -17,6 +17,12 @@
         setTimeout(Toast.fire({
             icon: 'error',
             title: 'NOT AUTHORIZED.\n Log in Required.'
+        }), 3000);
+    }
+    function invalid_username() {
+        setTimeout(Toast.fire({
+            icon: 'error',
+            title: 'Username Invalid.'
         }), 3000);
     }
     function register_fail() {
@@ -122,7 +128,7 @@
         <dt onclick="forum()">Forum</dt>
         <dd>
             Discord Server Invite link: <br>
-            <a href="https://discord.gg/qjDg6DJr" target="_blank" class="social">https://discord.gg/qjDg6DJr</a>
+            <a href="https://discord.gg/Q5fNttK9gT" target="_blank" class="social">https://discord.gg/Q5fNttK9gT</a>
         </dd>
         <dt>Contact</dt>
         <dd>
@@ -139,6 +145,4 @@
 {{!-- <p class="dummy-text">
     <!-- <button class="button" style="vertical-align:middle"><span><a href="https://www.fluxus.co.in/aboutTech-Fluxus/aboutTech-Fluxus/strategai.pdf" download="" target="_blank">Download Rule Booklet</a></span></button> -->
 </p> --}}
-<a href="/login"><button class="button" style="vertical-align:middle; width:auto;"><span>Existing
-            User</span></button></a>
-<a href="signup"><button class="button" style="vertical-align:middle"><span>New User</span></button></a>
+<a href="/auth/google"><button class="button" style="vertical-align:middle; width:auto;"><span>Dive In</span></button></a>

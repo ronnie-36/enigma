@@ -61,7 +61,7 @@ router.get('/signup', function (req, res, next) {
 });
 
 router.get('/home', function (req, res, next) {
-  if(req.isAuthenticated()){
+  if(req.isAuthenticated() && req.user.username != ""){
     if(req.session.type=='login'){
       req.session.type='';
       res.render('home', { func: 'login_successful()', layout: 'layout_static' });
@@ -85,7 +85,7 @@ router.get('/failure', function (req, res, next) {
 
 router.get('/profile', async function (req, res, next) {
   try{
-    if(!req.isAuthenticated()){
+    if(!req.isAuthenticated() || req.user.username == ""){
       res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
     const email = req.session.email;
@@ -116,6 +116,9 @@ router.get('/profile', async function (req, res, next) {
 // register new user
 router.post('/getusername', async function (req, res, next) {
   try{
+    if(!req.isAuthenticated()){
+      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+    }
     const { username } = req.body;
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if(format.test(username) || username.toLowerCase().includes("admin") || username==""){
@@ -124,17 +127,23 @@ router.post('/getusername', async function (req, res, next) {
     }
     const userExists = await User.findOne({ username });
     if (userExists) {
-      res.status(400);
       res.render('', { func: 'exists()', layout: 'register' });
     }
     else{
-     await User.updateOne({"email": req.user.email},{$set: { "username" : username}});
-     req.session.type = 'register';
-     req.session.email = req.user.email;
-     req.session.level = req.user.level;
-     req.session.score = req.user.score;
-     req.session.save();
-     res.redirect('/home');
+     const user = await User.findOne({ email: req.user.email });
+     if(user.username!=""){
+       req.session.type='';
+       res.redirect('/home');
+     }
+     else{
+      await User.updateOne({"email": req.user.email},{$set: { "username" : username}});
+      req.session.type = 'register';
+      req.session.email = req.user.email;
+      req.session.level = req.user.level;
+      req.session.score = req.user.score;
+      req.session.save();
+      res.redirect('/home');
+     }
     }
 }
 catch(e){
@@ -165,11 +174,11 @@ catch(e){
 
 router.get('/play', async function (req, res, next) {
   try{
-    if(req.isAuthenticated()){
+    if(req.isAuthenticated() && req.user.username != "" ){
       //to be used for countdown and finish page
       var curDateTime = new Date();
       var end=new Date("2021-04-25T23:59:59+05:30");
-      var start=new Date('2021-04-24T00:34:59+05:30');
+      var start=new Date('2021-04-23T00:34:59+05:30');
       //console.log(curDateTime.getTime() < start.getTime());
       if(curDateTime.getTime() > end.getTime()){
         res.render('end', {layout:'play_layout'});
@@ -232,7 +241,7 @@ catch(e){
 
 router.post('/play', async function (req, res, next) {
 try{
-  if(req.isAuthenticated()){
+  if(req.isAuthenticated() && req.user.username != ""){
     let login=true;
     var ans = req.body.answer;
     var qno = req.body.qno;
@@ -324,7 +333,7 @@ catch(e){
 //leaderboard
 router.get('/leaderboard', async function (req, res, next) {
   try{
-    if(!req.isAuthenticated()){
+    if(!req.isAuthenticated() || req.user.username == ""){
       res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
     const email = req.session.email;

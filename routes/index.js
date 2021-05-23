@@ -8,8 +8,8 @@ const QnA = require('../models/qnaModel');
 async function update_score(req, email, score) {
   const user = await User.findOne({ email });
   user.score = score;
-  user.level=req.session.level;
-  user.save();
+  user.level = req.session.level;
+  await user.save();
 }
 
 function get_rank(email) {
@@ -23,18 +23,16 @@ function get_rank(email) {
         if (err) throw err;
         var userrank = 0;
         while (itr < result.length) {
-          if (itr < 20) {
-            leaderboard_data.push({'name':result[itr].username,'score':result[itr].score});
+          if(result[itr].score > 0){
+          leaderboard_data.push({'name':result[itr].username,'score':result[itr].score});
           }
           if (email == result[itr].email) {
             userrank = itr + 1;
           }
-          if (itr >= Math.min(20, result.length) - 1 && userrank != 0) {
-            resolve(userrank);
-            return;
-          }
           itr++;
         }
+        resolve(userrank);
+        return;
       });
   });
 }
@@ -181,10 +179,10 @@ router.get('/play', async function (req, res, next) {
       var start=new Date('2021-04-23T00:34:59+05:30');
       //console.log(curDateTime.getTime() < start.getTime());
       if(curDateTime.getTime() > end.getTime()){
-        res.render('end', {layout:'play_layout'});
+        return res.render('end', {layout:'play_layout'});
       }
       else if(curDateTime.getTime() < start.getTime()){
-        res.render('', {layout:'countdown'});
+        return res.render('', {layout:'countdown'});
       }
       const noOfQuestions = await QnA.countDocuments({});
       console.log('CURRENT LEVEL', req.session.level);
@@ -242,6 +240,16 @@ catch(e){
 router.post('/play', async function (req, res, next) {
 try{
   if(req.isAuthenticated() && req.user.username != ""){
+    var curDateTime = new Date();
+    var end=new Date("2021-04-25T23:59:59+05:30");
+    var start=new Date('2021-04-23T00:34:59+05:30');
+    //console.log(curDateTime.getTime() < start.getTime());
+    if(curDateTime.getTime() > end.getTime()){
+      return res.render('end', {layout:'play_layout'});
+    }
+    else if(curDateTime.getTime() < start.getTime()){
+      return res.render('', {layout:'countdown'});
+    }
     let login=true;
     var ans = req.body.answer;
     var qno = req.body.qno;
@@ -315,6 +323,30 @@ catch(e){
 //       });
 // });
 
+// //route to get data of users
+// router.get('/126users349', function (req, res, next) {
+//   User.find()
+//       .sort({ score: -1, updatedAt: 1 })
+//       .exec(function (err, result) {
+//         if (err) throw err;
+//         let users=[];
+//         let itr=0;
+//         while (itr < result.length) {
+//           let user = [];
+//           user.push(itr+1, result[itr].username, result[itr].first_name, result[itr].last_name, result[itr].email, result[itr].score);
+//           itr++;
+//           users.push(user);
+//         }
+//         var usersCsv='S.No.,Username,First Name,Last Name,Email,Score\n';
+//         users.forEach(function(row) {  
+//           usersCsv += row.join(',');  
+//           usersCsv += "\n";  
+//         });
+//         res.header('Content-Type', 'text/csv');
+//         res.send(usersCsv);
+//       });
+// });
+
 // // route to load questions in database
 // // requires questions.js file,answer[],close_ans[]
 // router.get('/loadquestions', async function (req, res, next) {
@@ -342,7 +374,7 @@ router.get('/leaderboard', async function (req, res, next) {
     const uname = user.username;
     const rank = await get_rank(req.session.email);
     console.log('rank is :', rank);
-    console.log('THE LEADERBOARD DATA:', leaderboard_data);
+    // console.log('THE LEADERBOARD DATA:', leaderboard_data);
     res.render('leaderboard', {
       layout: 'layout_empty',
       Rank: rank,

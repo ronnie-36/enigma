@@ -7,6 +7,8 @@ var expressSession = require('express-session');
 var logger = require('morgan');
 var expressHbs =  require('express-handlebars');
 const passport = require('passport');
+const redis = require('redis');
+const connectRedis = require('connect-redis');
 const connectDB = require('./config/db');
 var flash = require('connect-flash');
 var indexRouter = require('./routes/index');
@@ -42,6 +44,21 @@ hbs.handlebars.registerHelper({
   inc: (v) => v+1
 });
 
+let redisClient = redis.createClient({
+  url: `redis://:${process.env.REDIS_PASSWORD}@${process.env.REDIS_HOSTNAME}:${process.env.REDIS_PORT}`,
+  legacyMode: true
+});
+
+redisClient.connect();
+
+redisClient.on('error', function (err) {
+  console.log('Could not establish a connection with redis. ' + err);
+});
+redisClient.on('connect', function (err) {
+  console.log('Connected to redis successfully');
+});
+
+let RedisStore = connectRedis(expressSession)
 app.disable('x-powered-by');
 app.use(flash());
 app.use(logger('dev'));
@@ -50,6 +67,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(
   expressSession({
+    store: new RedisStore({ client: redisClient }),
     secret: process.env.EXPRESS_SECRET,
     resave: false,
     saveUninitialized: true,

@@ -150,32 +150,13 @@ catch(e){
 
 });
 
-// //only for testing, to be included in play once date is finalized
-// router.get('/countdown',function (req, res, next) {
-//   if(req.isAuthenticated()){
-//     res.render('', {layout:'countdown'});
-//   }
-//   else{
-//     res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-//     }
-// });
-// //only for testing, to be included in play once date is finalized
-// router.get('/end',function (req, res, next) {
-//   if(req.isAuthenticated()){
-//     res.render('end', {layout:'play_layout'});
-//   }
-//   else{
-//     res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-//     }
-// });
-
 
 router.get('/play', async function (req, res, next) {
   try{
     if(req.isAuthenticated() && req.user.username != "" ){
       //to be used for countdown and finish page
       var curDateTime = new Date();
-      var end=new Date("2021-04-25T23:59:59+05:30");
+      var end=new Date("2022-04-25T23:59:59+05:30");
       var start=new Date('2021-04-23T00:34:59+05:30');
       //console.log(curDateTime.getTime() < start.getTime());
       if(curDateTime.getTime() > end.getTime()){
@@ -241,7 +222,7 @@ router.post('/play', async function (req, res, next) {
 try{
   if(req.isAuthenticated() && req.user.username != ""){
     var curDateTime = new Date();
-    var end=new Date("2021-04-25T23:59:59+05:30");
+    var end=new Date("2022-04-25T23:59:59+05:30");
     var start=new Date('2021-04-23T00:34:59+05:30');
     //console.log(curDateTime.getTime() < start.getTime());
     if(curDateTime.getTime() > end.getTime()){
@@ -307,45 +288,6 @@ catch(e){
   next(e);
 }
 });
-
-// //route to get email of users
-// router.get('/126emails349', function (req, res, next) {
-//   User.find()
-//       .exec(function (err, result) {
-//         if (err) throw err;
-//         let emails=[];
-//         let itr=0;
-//         while (itr < result.length) {
-//           emails.push(result[itr].email);
-//           itr++;
-//         }
-//         res.send(emails);
-//       });
-// });
-
-// //route to get data of users
-// router.get('/126users349', function (req, res, next) {
-//   User.find()
-//       .sort({ score: -1, updatedAt: 1 })
-//       .exec(function (err, result) {
-//         if (err) throw err;
-//         let users=[];
-//         let itr=0;
-//         while (itr < result.length) {
-//           let user = [];
-//           user.push(itr+1, result[itr].username, result[itr].first_name, result[itr].last_name, result[itr].email, result[itr].score);
-//           itr++;
-//           users.push(user);
-//         }
-//         var usersCsv='S.No.,Username,First Name,Last Name,Email,Score\n';
-//         users.forEach(function(row) {  
-//           usersCsv += row.join(',');  
-//           usersCsv += "\n";  
-//         });
-//         res.header('Content-Type', 'text/csv');
-//         res.send(usersCsv);
-//       });
-// });
 
 // // route to load questions in database
 // // requires questions.js file,answer[],close_ans[]

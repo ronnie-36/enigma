@@ -84,7 +84,7 @@ router.get('/failure', function (req, res, next) {
 router.get('/profile', async function (req, res, next) {
   try{
     if(!req.isAuthenticated() || req.user.username == ""){
-      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
     const email = req.session.email;
     const user = await User.findOne({ email });
@@ -115,17 +115,17 @@ router.get('/profile', async function (req, res, next) {
 router.post('/getusername', async function (req, res, next) {
   try{
     if(!req.isAuthenticated()){
-      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
     const { username } = req.body;
     var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
     if(format.test(username) || username.toLowerCase().includes("admin") || username==""){
       req.logout();
-      res.render('', { func: 'invalid_username()', layout: 'landing' });
+      return res.render('', { func: 'invalid_username()', layout: 'landing' });
     }
     const userExists = await User.findOne({ username });
     if (userExists) {
-      res.render('', { func: 'exists()', layout: 'register' });
+      return res.render('', { func: 'exists()', layout: 'register' });
     }
     else{
      const user = await User.findOne({ email: req.user.email });
@@ -156,7 +156,7 @@ router.get('/play', async function (req, res, next) {
     if(req.isAuthenticated() && req.user.username != "" ){
       //to be used for countdown and finish page
       var curDateTime = new Date();
-      var end=new Date("2022-04-25T23:59:59+05:30");
+      var end=new Date("2021-04-25T23:59:59+05:30");
       var start=new Date('2021-04-23T00:34:59+05:30');
       //console.log(curDateTime.getTime() < start.getTime());
       if(curDateTime.getTime() > end.getTime()){
@@ -169,7 +169,7 @@ router.get('/play', async function (req, res, next) {
       console.log('CURRENT LEVEL', req.session.level);
       // for completion
       if(Math.min(...req.session.level)>noOfQuestions){
-        res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
+        return res.render('complete', {text:"Congrats! You completed Enigma.",layout:'play_layout'});
       }
       let last = false;
       if(req.session.level.length == 2){
@@ -308,7 +308,7 @@ catch(e){
 router.get('/leaderboard', async function (req, res, next) {
   try{
     if(!req.isAuthenticated() || req.user.username == ""){
-      res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
+      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
     }
     const email = req.session.email;
     const user = await User.findOne({ email });

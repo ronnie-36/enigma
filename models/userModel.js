@@ -27,6 +27,10 @@ const userSchema = new mongoose.Schema(
     level: {
       type: Array,
     },
+    certificateName: {
+      type: String,
+      default: "",
+    },
     last_write: {
       type: Date,
       default: Date.now(),

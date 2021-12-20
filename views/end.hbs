@@ -1,4 +1,8 @@
-<link rel='stylesheet' type='text/css' media='screen' href='../stylesheets/play_screen.css'>
+<link rel='stylesheet' type='text/css' media='screen' href='/stylesheets/end_screen.css'>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/FileSaver.js/2.0.5/FileSaver.js"
+    integrity="sha512-B+gr+zLWg81qxVwvtYwKrmjvQtZKD/GGFF7jD80OfzbqFw+NsbS5faEqpCO7Q7oRw1bYi0+WLJf54j8Vm7NADw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="/javascripts/end.js"></script>
 <link href="https://unpkg.com/@pqina/flip/dist/flip.min.css" rel="stylesheet">
 <script src="https://unpkg.com/@pqina/flip/dist/flip.min.js"></script>
 <script>
@@ -62,4 +66,7 @@
     <img src="/images/ggwp.gif" style="zoom: 0.5;">
     <h1>ENIGMA HAS ENDED</h1>
     <h3>Thanks For Playing</h3>
+    <br>
+    {{!-- <button class="button" style="vertical-align:middle; width:auto;"><span>Practice</span></button> --}}
+    <button class="button" style="vertical-align:middle; width:auto;" onclick="downloadCertificate()"><span>Download Certificate</span></button>
 </center>

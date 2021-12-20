@@ -1,17 +1,17 @@
-@import url('https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap');
-.enigma{
+@import url("https://fonts.googleapis.com/css2?family=Bubblegum+Sans&display=swap");
+.enigma {
   font-size: 40px;
   color: #f4511e;
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: "Bubblegum Sans", cursive;
 }
-.navbar{
-  position: relative!important;
+.navbar {
+  position: relative !important;
 }
 .dropdown-item,
-.nav-link{
-  color: #f4511e!important;
+.nav-link {
+  color: #f4511e !important;
   font-size: 25px;
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: "Bubblegum Sans", cursive;
 }
 li {
   display: flex;
@@ -19,14 +19,14 @@ li {
   align-items: center;
 }
 .custom-toggler.navbar-toggler {
-  border-color: #f4511e!important;
+  border-color: #f4511e !important;
 }
 .custom-toggler .navbar-toggler-icon {
-  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(9,55,244, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E")!important;
+  background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 32 32' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(9,55,244, 1)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 8h24M4 16h24M4 24h24'/%3E%3C/svg%3E") !important;
 }
 .navbar .dropdown-menu {
   padding: 0;
-  background-color: rgba(0, 0, 0, .9);
+  background-color: rgba(0, 0, 0, 0.9);
   margin: 0;
 }
 .navbar .dropdown-menu .dropdown-item {
@@ -34,7 +34,7 @@ li {
   padding: 10px 20px;
   color: #fff;
   font-size: 1.4rem;
-  border-bottom: 1px solid rgba(255, 255, 255, .1);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
   transition: color 0.2s ease-in;
 }
 .navbar .dropdown-menu .dropdown-item:last-child {
@@ -45,7 +45,7 @@ li {
   color: #c0ca33;
 }
 .navbar .dropdown-menu .dropdown-item::before {
-  content: '';
+  content: "";
   position: absolute;
   bottom: 0;
   left: 0;
@@ -58,39 +58,18 @@ li {
 .navbar .dropdown-menu .dropdown-item:hover::before {
   opacity: 1;
 }
-.navbar .navbar-nav .nav-link:focus,.navbar .navbar-nav .nav-link:hover {
+.navbar .navbar-nav .nav-link:focus,
+.navbar .navbar-nav .nav-link:hover {
   background-color: yellow;
   text-decoration: underline;
 }
-input[type=text] {
-  width: 40%;
-  padding: 12px 20px;
-  margin: 8px 0;
+input[type="text"] {
   border-radius: 5px;
   box-sizing: border-box;
-  border: 3px solid  #f4511e;
+  border: 3px solid #f4511e;
   -webkit-transition: 0.3s;
   transition: 0.3s;
   outline: none;
-}
-input[type=text]:focus {
-  border: 3px solid green;
-  border-radius: 5px;
-}
-input[type=submit]{
-  background-color: #4CAF50;
-  border: none;
-  color: white;
-  font-size: 25px;
-  font-family: 'Bubblegum Sans', cursive;
-  padding: 8px 22px;
-  text-decoration: none;
-  border-radius: 10px;
-  margin: 4px 2px;
-  cursor: pointer;
-}
-input[type=submit]:hover{
-  color: yellow;
 }
 
 .last {
@@ -99,9 +78,9 @@ input[type=submit]:hover{
 
 .timebox {
   width: 240px;
-  position:initial;
+  position: initial;
   text-align: center;
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: "Bubblegum Sans", cursive;
 }
 
 .tick {
@@ -130,12 +109,12 @@ input[type=submit]:hover{
   min-width: 1em;
 }
 
-.tick-text-inline+.tick-text-inline {
-  margin-left: -.325em;
+.tick-text-inline + .tick-text-inline {
+  margin-left: -0.325em;
 }
 
 .tick-group {
-  margin: 0 .5em;
+  margin: 0 0.5em;
   text-align: center;
 }
 
@@ -146,7 +125,7 @@ input[type=submit]:hover{
 .tick-label {
   margin-top: 0px !important;
   color: #f4511e !important;
-  font-family: 'Bubblegum Sans', cursive;
+  font-family: "Bubblegum Sans", cursive;
 }
 
 .tick-flip-panel {
@@ -173,50 +152,56 @@ input[type=submit]:hover{
   background: rgb(255, 0, 0);
 }
 
-.timeleftcenter{
-  text-align: center; 
-  color:#f4511e;
+.timeleftcenter {
+  text-align: center;
+  color: #f4511e;
+}
+
+.swal2-popup {
+  font-size: 1.3rem !important;
+  color: #f4511e;
+  font-family: "Bubblegum Sans", cursive;
 }
 
 .button {
-    display: inline-block;
-    border-radius: 4px;
-    background-color: #f4511e;
-    border: none;
-    color: #FFFFFF;
-    text-align: center;
-    font-size: 28px;
-    font-family: 'Bubblegum Sans', cursive;
-    padding: 10px;
-    width: 170px;
-    transition: all 0.5s;
-    cursor: pointer;
-    margin: 10px;
+  display: inline-block;
+  border-radius: 4px;
+  background-color: #f4511e;
+  border: none;
+  color: #ffffff;
+  text-align: center;
+  font-size: 28px;
+  font-family: "Bubblegum Sans", cursive;
+  padding: 10px;
+  width: 170px;
+  transition: all 0.5s;
+  cursor: pointer;
+  margin: 10px;
 }
 
 .button span {
-    cursor: pointer;
-    display: inline-block;
-    position: relative;
-    transition: 0.5s;
+  cursor: pointer;
+  display: inline-block;
+  position: relative;
+  transition: 0.5s;
 }
 
 .button span:after {
-    content: '\00bb';
-    position: absolute;
-    opacity: 0;
-    top: 0;
-    right: -20px;
-    transition: 0.5s;
+  content: "\00bb";
+  position: absolute;
+  opacity: 0;
+  top: 0;
+  right: -20px;
+  transition: 0.5s;
 }
 
 .button:hover span {
-    padding-right: 25px;
+  padding-right: 25px;
 }
 
 .button:hover span:after {
-    opacity: 1;
-    right: 0;
+  opacity: 1;
+  right: 0;
 }
 
 @media screen and (min-width: 767px) {
@@ -298,8 +283,8 @@ input[type=submit]:hover{
 
 .project-tab .nav-link {
   border: 1px solid transparent;
-  border-top-left-radius: .25rem;
-  border-top-right-radius: .25rem;
+  border-top-left-radius: 0.25rem;
+  border-top-right-radius: 0.25rem;
   color: #0062cc;
   font-size: 20px;
   font-weight: 600;
@@ -333,42 +318,42 @@ input[type=submit]:hover{
 
 @media screen and (max-width: 990px) {
   .imagebox {
-      width: 100%;
-      height: 100%;
-      margin-bottom: 4px;
+    width: 100%;
+    height: 100%;
+    margin-bottom: 4px;
   }
 
   #question_description a {
-      color: lightblue;
-      font-size: 5vw;
+    color: lightblue;
+    font-size: 5vw;
   }
 }
 @media screen and (max-width: 600px) {
   #question_description a {
-      color: lightblue;
-      font-size: 6vw;
+    color: lightblue;
+    font-size: 6vw;
   }
 }
-@media screen and (max-width: 990px) and (min-width :600px) {
+@media screen and (max-width: 990px) and (min-width: 600px) {
   #question_description a {
-      color: lightblue;
-      font-size: 4vw;
+    color: lightblue;
+    font-size: 4vw;
   }
 }
-#overlay{	
+#overlay {
   position: fixed;
   top: 0;
   z-index: 100;
   width: 100%;
-  height:100%;
+  height: 100%;
   display: none;
-  background: rgba(0,0,0,0.6);
+  background: rgba(0, 0, 0, 0.6);
 }
 .cv-spinner {
   height: 100%;
   display: flex;
   justify-content: center;
-  align-items: center;  
+  align-items: center;
 }
 .spinner {
   width: 40px;
@@ -379,10 +364,10 @@ input[type=submit]:hover{
   animation: sp-anime 0.8s infinite linear;
 }
 @keyframes sp-anime {
-  100% { 
-    transform: rotate(360deg); 
+  100% {
+    transform: rotate(360deg);
   }
 }
-.is-hide{
-  display:none;
+.is-hide {
+  display: none;
 }

@@ -98,7 +98,9 @@ app.use(function (err, req, res, next) {
 
   // render the error page
   res.status(err.status || 500);
-  if(err.status==404){res.render('', { layout: '404' });}
+  if(err.status==404){
+    return res.render('', { layout: '404' });
+  }
   res.render('',{layout:'error'});
 });
 

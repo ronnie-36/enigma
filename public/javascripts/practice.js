@@ -70,7 +70,7 @@ $(document).ready(function () {
                             close();
                         } else if (response.fun == 1) {
                             success();
-                            setInterval('location.reload()', 1000);
+                            setTimeout('location.reload()', 1000);
                         }
                     }
                 },

@@ -27,6 +27,7 @@ router.get('/getcertificate', async function (req, res, next) {
             const buffer = Buffer.from(pdfBytes);
             res.setHeader('Content-Type', 'application/pdf');
             res.setHeader('Content-Disposition', 'attachment; filename=EnigmaCertificate.pdf');
+            res.setHeader('Content-Length', Buffer.byteLength(buffer));
             res.send(buffer);
         }
         else {
@@ -57,6 +58,7 @@ router.post('/getcertificate', async function (req, res, next) {
         const buffer = Buffer.from(pdfBytes);
         res.setHeader('Content-Type', 'application/pdf');
         res.setHeader('Content-Disposition', 'attachment; filename=EnigmaCertificate.pdf');
+        res.setHeader('Content-Length', Buffer.byteLength(buffer));
         res.send(buffer);
     }
     catch (e) {

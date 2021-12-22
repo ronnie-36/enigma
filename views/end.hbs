@@ -53,11 +53,16 @@
         };
 
         counter.onended = function () {
-
             // window.location = '/end'
             // show message, uncomment the next line
             // document.querySelector('.tick-onended-message').style.display = '';
         };
+    }
+    function practice_completed() {
+        Swal.fire({
+            icon: 'info',
+            title: 'You have completed the practice!'
+        })
     }
 </script>
 <br>
@@ -67,6 +72,6 @@
     <h1>ENIGMA HAS ENDED</h1>
     <h3>Thanks For Playing</h3>
     <br>
-    {{!-- <button class="button" style="vertical-align:middle; width:auto;"><span>Practice</span></button> --}}
+    <a href="/play/practice"><button class="button" style="vertical-align:middle; width:auto;"><span>Practice</span></button></a>
     <button class="button" style="vertical-align:middle; width:auto;" onclick="downloadCertificate()"><span>Download Certificate</span></button>
 </center>

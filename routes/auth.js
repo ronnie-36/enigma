@@ -15,14 +15,10 @@ router.get(
   passport.authenticate('google', { failureRedirect: '/failure', failureFlash: true }),
   (req, res) => {
         if(req.user.username == ""){
-          res.redirect('/signup');
+          res.redirect('/register');
         }
         else{
           req.session.type = 'login';
-          req.session.email = req.user.email;
-          req.session.level = req.user.level;
-          req.session.score = req.user.score;
-          req.session.save();
           res.redirect('/home');
         }
     }
@@ -32,7 +28,6 @@ router.get(
 // @route   /auth/logout
 router.get('/logout', (req, res) => {
   req.logout();
-  req.session.destroy();
   res.redirect('/');
 });
 

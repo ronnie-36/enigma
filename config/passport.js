@@ -10,19 +10,19 @@ module.exports = function (passport) {
                 callbackURL: '/auth/google/callback',
                 failureFlash: true 
             },
-            async (accessToken, refreshToken, email, done) => {
+            async (accessToken, refreshToken, profile, done) => {
                 const newUser ={
-                    googleId: email.id,
-                    email: email.emails[0].value,
+                    googleId: profile.id,
+                    email: profile.emails[0].value,
                     username: "",
-                    first_name: email.name.givenName,
-                    last_name: email.name.familyName,
+                    firstName: profile.name.givenName,
+                    lastName: profile.name.familyName,
                     score: 0,
                     level: [1,2]
                 }
 
                 try {
-                    let user = await User.findOne({ email: email.emails[0].value });                 
+                    let user = await User.findOne({ email: profile.emails[0].value });                 
                     if (user) {  
                       done(null, user);
                     } 

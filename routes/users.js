@@ -2,25 +2,21 @@ var express = require('express');
 var router = express.Router();
 const User = require('../models/userModel');
 const createCertificate = require('../services/certificateService');
+const { ensureLoggedIn } = require('../middleware/auth');
 
-router.get('/getcertificate', async function (req, res, next) {
+router.get('/getcertificate', ensureLoggedIn(), async function (req, res, next) {
     try {
-        if (!req.isAuthenticated() || req.user.username == "") {
-            return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static' });
-        }
-        const email = req.session.email;
-        const user = await User.findOne({ email });
-        let done = (user.certificateName != "");
-        let valid = (user.score > 0);
-        let certificateName = user.certificateName;
+        let done = (req.user.certificateName != "");
+        let valid = (req.user.score > 0);
+        let certificateName = req.user.certificateName;
         let name;
-        if (user.last_name == undefined) {
-            name = user.first_name;
+        if (req.user.lastName == undefined) {
+            name = req.user.firstName;
         }
         else {
-            name = user.first_name + ' ' + user.last_name;
+            name = req.user.firstName + ' ' + req.user.lastName;
         }
-        const uname = user.username;
+        const uname = req.user.username;
         if (done == true && valid == true) {
             console.log(`User ${uname} generated certificate.`)
             const pdfBytes = await createCertificate(certificateName);
@@ -39,12 +35,8 @@ router.get('/getcertificate', async function (req, res, next) {
     }
 });
 
-router.post('/getcertificate', async function (req, res, next) {
+router.post('/getcertificate', ensureLoggedIn(), async function (req, res, next) {
     try {
-        if (!req.isAuthenticated() || req.user.username == "") {
-            return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static' });
-        }
-
         const uname = req.user.username;
         let valid = (req.user.score > 0);
         const { certificateName } = req.body;
@@ -91,7 +83,7 @@ router.post('/getcertificate', async function (req, res, next) {
 //         let itr=0;
 //         while (itr < result.length) {
 //           let user = [];
-//           user.push(itr+1, result[itr].username, result[itr].first_name, result[itr].last_name, result[itr].email, result[itr].score);
+//           user.push(itr+1, result[itr].username, result[itr].firstName, result[itr].lastName, result[itr].email, result[itr].score);
 //           itr++;
 //           users.push(user);
 //         }

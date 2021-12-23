@@ -1,11 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const MongoClient = require('mongodb').MongoClient;
 const User = require('../models/userModel');
-const QnA = require('../models/qnaModel');
+const { ensureLoggedIn, ensureLoggedOut } = require('../middleware/auth');
 
 
-function get_rank(email) {
+function get_rank(email, onlyRank) {
   return new Promise(function (resolve, reject) {
     leaderboard_data = [];
     itr = 0;
@@ -16,11 +15,19 @@ function get_rank(email) {
         if (err) throw err;
         var userrank = 0;
         while (itr < result.length) {
-          if(result[itr].score > 0){
-          leaderboard_data.push({'name':result[itr].username,'score':result[itr].score});
-          }
           if (email == result[itr].email) {
             userrank = itr + 1;
+            if(onlyRank) {
+              break;
+            }
+          }
+          if(result[itr].score > 0){
+            leaderboard_data.push({'name':result[itr].username,'score':result[itr].score});
+          }
+          else{
+            if (userrank != 0){
+              break;
+            }
           }
           itr++;
         }
@@ -30,7 +37,7 @@ function get_rank(email) {
   });
 }
 
-router.get('/', function (req, res, next) {
+router.get('/', ensureLoggedOut(), function (req, res, next) {
   res.render('landing', { layout: 'layout_static' });
 });
 
@@ -44,15 +51,44 @@ router.get('/404redirect', function (req, res, next) {
 });
 
 router.get('/login', function (req, res, next) {
-  res.redirect('/auth/google');
+  res.render('landing', { func: 'not_logged_in()', layout: 'layout_static' });
 });
 
-router.get('/signup', function (req, res, next) {
+router.get('/register', ensureLoggedIn({ usernameCheck: false }), function (req, res, next) {
   res.render('', { layout: 'register' });
 });
 
-router.get('/home', function (req, res, next) {
-  if(req.isAuthenticated() && req.user.username != ""){
+// register new user
+router.post('/register', ensureLoggedIn({ usernameCheck: false }), async function (req, res, next) {
+  try {
+    const { username } = req.body;
+    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
+    if (format.test(username) || username.toLowerCase().includes("admin") || username == "") {
+      req.logout();
+      return res.render('', { func: 'invalid_username()', layout: 'landing' });
+    }
+    const userExists = await User.findOne({ username });
+    if (userExists) {
+      return res.render('', { func: 'exists()', layout: 'register' });
+    }
+    else {
+      if (req.user.username != "") {
+        req.session.type = '';
+        res.redirect('/home');
+      }
+      else {
+        await User.updateOne({ "email": req.user.email }, { $set: { "username": username } });
+        req.session.type = 'register';
+        res.redirect('/home');
+      }
+    }
+  }
+  catch (e) {
+    next(e);
+  }
+});
+
+router.get('/home', ensureLoggedIn(), function (req, res, next) {
     if(req.session.type=='login'){
       req.session.type='';
       res.render('home', { func: 'login_successful()', layout: 'layout_static' });
@@ -64,83 +100,35 @@ router.get('/home', function (req, res, next) {
     else{
     res.render('home', { layout: 'layout_static' });
     }
-  }
-  else{
-  res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-  }
 });
 
 router.get('/failure', function (req, res, next) {
   res.render('landing', { func: 'register_fail()', layout: 'layout_static', error: req.flash("error")});
 });
 
-router.get('/profile', async function (req, res, next) {
+router.get('/profile', ensureLoggedIn(), async function (req, res, next) {
   try{
-    if(!req.isAuthenticated() || req.user.username == ""){
-      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
-    const email = req.session.email;
-    const user = await User.findOne({ email });
-    var name;
-    if(user.last_name == undefined){
-      name = user.first_name ;
+    let name;
+    if(req.user.lastName == undefined){
+      name = req.user.firstName ;
     }
     else{
-    name = user.first_name +' '+ user.last_name ;
+      name = req.user.firstName +' '+ req.user.lastName ;
     }
-    const uname = user.username;
-    const rank = await get_rank(req.session.email);
+    const uname = req.user.username;
+    const rank = await get_rank(req.user.email, true);
     res.render('profile',{  
         layout: 'layout_empty',
         Name: name,
         Rank: rank,
         User_Id: uname,
-        Email: req.session.email,
-        Score: req.session.score
+        Email: req.user.email,
+        Score: req.user.score
       });
   }
   catch(e){
     next(e);
   }
-});
-
-// register new user
-router.post('/getusername', async function (req, res, next) {
-  try{
-    if(!req.isAuthenticated()){
-      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
-    const { username } = req.body;
-    var format = /[ `!@#$%^&*()_+\-=\[\]{};':"\\|,.<>\/?~]/;
-    if(format.test(username) || username.toLowerCase().includes("admin") || username==""){
-      req.logout();
-      return res.render('', { func: 'invalid_username()', layout: 'landing' });
-    }
-    const userExists = await User.findOne({ username });
-    if (userExists) {
-      return res.render('', { func: 'exists()', layout: 'register' });
-    }
-    else{
-     const user = await User.findOne({ email: req.user.email });
-     if(user.username!=""){
-       req.session.type='';
-       res.redirect('/home');
-     }
-     else{
-      await User.updateOne({"email": req.user.email},{$set: { "username" : username}});
-      req.session.type = 'register';
-      req.session.email = req.user.email;
-      req.session.level = req.user.level;
-      req.session.score = req.user.score;
-      req.session.save();
-      res.redirect('/home');
-     }
-    }
-}
-catch(e){
-  next(e);
-}
-
 });
 
 // // route to load questions in database
@@ -159,23 +147,17 @@ catch(e){
 // });
 
 //leaderboard
-router.get('/leaderboard', async function (req, res, next) {
+router.get('/leaderboard', ensureLoggedIn(), async function (req, res, next) {
   try{
-    if(!req.isAuthenticated() || req.user.username == ""){
-      return res.render('landing', { func: 'not_logged_in()', layout: 'layout_static'});
-    }
-    const email = req.session.email;
-    const user = await User.findOne({ email });
-    req.session.level = user.level;
-    const uname = user.username;
-    const rank = await get_rank(req.session.email);
+    const uname = req.user.username;
+    const rank = await get_rank(req.user.email, false);
     console.log('rank is :', rank);
     // console.log('THE LEADERBOARD DATA:', leaderboard_data);
     res.render('leaderboard', {
       layout: 'layout_empty',
       Rank: rank,
       User_Id: uname,
-      My_score: req.session.score,
+      My_score: req.user.score,
       lb_data: leaderboard_data
     });
 }
